@@ -1,5 +1,5 @@
 import {
-  Bell, Building2, FolderKanban, Landmark, LayoutDashboard, Scale, Settings, Sparkles, Workflow,
+  Bell, Building2, FolderKanban, LayoutDashboard, Scale, Settings, Sparkles, Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
