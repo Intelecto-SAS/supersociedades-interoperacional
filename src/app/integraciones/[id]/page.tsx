@@ -29,7 +29,12 @@ export default function IntegracionDetalle() {
   return (
     <div>
       <PageHeader crumbs={[{ href: "/integraciones", label: "Integraciones" }, { href: `/integraciones/${def.id}`, label: def.nombre }]} title={def.nombre} description={def.descripcion} actions={<Button onClick={probar}>Probar conexión</Button>} />
-      <div className="mb-3 flex gap-2"><Badge tone="info">{def.categoria}</Badge><Badge tone={def.modoActual === "LIVE" ? "ok" : "neutral"}>{def.modoActual === "LIVE" ? "En vivo" : "Catálogo"}</Badge><Badge tone={def.estadoSimulado === "operativo" ? "ok" : "risk"}>{def.estadoSimulado}</Badge></div>
+      <div className="mb-3 flex flex-wrap gap-2">
+        <Badge tone={def.modoActual === "LIVE" ? "ok" : "warn"}>{def.modoActual === "LIVE" ? "Integración real" : "Integración simulada"}</Badge>
+        <Badge tone="info">{def.categoria}</Badge>
+        <Badge tone={def.estadoSimulado === "operativo" ? "ok" : "risk"}>{def.estadoSimulado}</Badge>
+      </div>
+      <p className="mb-4 text-sm text-slate-600">{def.modoActual === "LIVE" ? "La consulta de abajo sale del registro externo. El botón de prueba sigue leyendo el conjunto de la plataforma." : "Esta ficha no llama a un servicio externo. La prueba de conexión usa los registros de la plataforma."}</p>
       {def.id === "secop-ii" || def.id === "secop-i" ? <div className="mb-4"><SecopLiveSearch initialDataset={def.id === "secop-i" ? "procesos" : "contratos"} /></div> : null}
       {def.id === "rues" || def.id === "rama-procesos" || def.id === "sirem" ? <div className="mb-4"><CromaLiveSearch connectorId={def.id} /></div> : null}
       <div className="grid gap-4 lg:grid-cols-2">
