@@ -22,7 +22,7 @@ export default function RadicacionPage() {
     const id = `DEMO-RAD-LOCAL-${docId}`;
     setRadicado(id);
     add({ id: `DEMO-EXP-${id}`, empresaId: clas.empresaId ?? "DEMO-EMP-0002", tipo: clas.tramite, estado: "abierto", responsableDemo: "Equipo documental", resumen: clas.texto.slice(0, 180), fechaApertura: "2025-10-29" });
-    auditar("radicacion_simulada", id);
+    auditar("radicacion", id);
     setPaso(9);
   };
   return (

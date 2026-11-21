@@ -24,7 +24,7 @@ export function FlowCanvas({ flow }: { flow: FlowDefinition }) {
   const ejecutar = (forzarError = false) => {
     const result = ejecutarFlujo(flow, { forzarError });
     setRun(result);
-    auditar(forzarError ? "flujo_error_simulado" : "flujo_ejecutado", flow.id);
+    auditar(forzarError ? "flujo_con_incidencia" : "flujo_ejecutado", flow.id);
   };
   return (
     <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
