@@ -18,7 +18,7 @@ export default function FinanzasPage() {
   const tendencia = ultimo && previo && previo.ingresos ? (ultimo.ingresos - previo.ingresos) / previo.ingresos : 0;
   return (
     <div>
-      <PageHeader title="Analítica financiera" description="Cálculos sobre los tres ejercicios ficticios de cada empresa." />
+      <PageHeader title="Analítica financiera" description="Ingresos, balance y tendencia de los tres últimos ejercicios." />
       <label className="mb-3 block text-sm">Empresa
         <select className="ml-2 rounded border px-2 py-1" value={id} onChange={(e) => setId(e.target.value)}>{destacadas.map((e) => <option key={e.id} value={e.id}>{e.razonSocial}</option>)}</select>
       </label>

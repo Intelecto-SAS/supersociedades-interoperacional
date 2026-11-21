@@ -14,8 +14,8 @@ export function PageHeader({ title, description, actions, crumbs }: { title: str
             ))}
           </nav>
         ) : null}
-        <h1 className="text-2xl font-bold text-brand-blue">{title}</h1>
-        {description ? <p className="mt-1 max-w-3xl text-sm text-slate-600">{description}</p> : null}
+        <h1 className="text-[1.7rem] font-bold tracking-tight text-brand-blue">{title}</h1>
+        {description ? <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
     </div>

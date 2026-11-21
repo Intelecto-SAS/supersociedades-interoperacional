@@ -19,13 +19,12 @@ export default function IntegracionesPage() {
     { accessorKey: "nombre", header: "Conector", cell: ({ row }) => <Link className="font-semibold text-brand-blue" href={`/integraciones/${row.original.id}`}>{row.original.nombre}</Link> },
     { accessorKey: "categoria", header: "Categoría" },
     { accessorKey: "adaptador", header: "Adaptador" },
-    { accessorKey: "tipoAccesoReal", header: "Acceso real" },
-    { accessorKey: "estadoSimulado", header: "Estado simulado", cell: ({ getValue }) => <Badge tone={getValue() === "operativo" ? "ok" : getValue() === "caido" ? "risk" : "warn"}>{String(getValue())}</Badge> },
-    { id: "modo", header: "Modo", cell: () => "MOCK" },
+    { accessorKey: "entidadProveedora", header: "Entidad" },
+    { accessorKey: "estadoSimulado", header: "Estado", cell: ({ getValue }) => <Badge tone={getValue() === "operativo" ? "ok" : getValue() === "caido" ? "risk" : "warn"}>{String(getValue())}</Badge> },
   ];
   return (
     <div>
-      <PageHeader title="Catálogo de integraciones" description={`${data.conectores.length} conectores en modo simulado. Ninguno está clasificado como API pública verificada. Conexiones reales activas: 0.`} />
+      <PageHeader title="Catálogo de integraciones" description={`${data.conectores.length} fuentes disponibles para la vista empresarial, el riesgo y los expedientes.`} />
       <div className="mb-3 grid gap-2 md:grid-cols-2">
         <TextInput aria-label="Buscar conector" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Nombre o entidad" />
         <select aria-label="Categoría" className="rounded-md border px-2" value={cat} onChange={(e) => setCat(e.target.value)}>

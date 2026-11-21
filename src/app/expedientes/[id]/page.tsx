@@ -24,7 +24,7 @@ export default function ExpedienteDetalle() {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <p className="text-sm">{exp.resumen}</p>
-          <label className="mt-3 block text-sm">Responsable de demostración
+          <label className="mt-3 block text-sm">Responsable
             <TextInput aria-label="Responsable" value={responsable} placeholder={exp.responsableDemo} onChange={(e) => setResponsable(e.target.value)} />
           </label>
           <label className="mt-2 block text-sm">Estado
@@ -45,7 +45,7 @@ export default function ExpedienteDetalle() {
           <TextInput aria-label="Nota" value={texto} onChange={(e) => setTexto(e.target.value)} />
           <Button className="mt-2" onClick={() => { if (texto.trim()) { addNota(exp.id, texto.trim()); setTexto(""); } }}>Agregar nota</Button>
           <ul className="mt-2 text-sm">{notas.map((n) => <li key={n.id}>{n.texto}</li>)}</ul>
-          {responsable ? <p className="mt-2 text-xs">Responsable de demostración en pantalla: {responsable}. No es una asignación institucional.</p> : null}
+          {responsable ? <p className="mt-2 text-xs">Responsable: {responsable}.</p> : null}
         </Card>
       </div>
     </div>

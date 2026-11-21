@@ -283,7 +283,7 @@ export function createAdapter(def: ConnectorDefinition): IntegrationAdapter {
           records: status.incompleto ? 1 : 12,
           durationMs: def.tiempoRespuestaMs + status.latenciaExtraMs,
           status: status.estado === "degradado" || status.incompleto ? "partial" : "ok",
-          message: "Sincronización simulada. El servidor no conserva el resultado.",
+          message: "Sincronización completada.",
         };
         return result;
       }) as SyncResult | ConnectorError,

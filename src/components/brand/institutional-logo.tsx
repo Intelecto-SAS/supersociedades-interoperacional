@@ -9,7 +9,7 @@ export function InstitutionalLogo({ src, alt = "Marca institucional autorizada" 
   return (
     <div>
       <p className="text-lg font-bold">CONECTA 360</p>
-      <p className="text-xs">Prototipo de interoperabilidad empresarial</p>
+      <p className="text-xs">Interoperabilidad empresarial</p>
     </div>
   );
 }

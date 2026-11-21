@@ -17,11 +17,11 @@ export default function InsolvenciaPage() {
   const procs = data.procesos.filter((p) => p.empresaId === empresa.id);
   return (
     <div>
-      <PageHeader title="Insolvencia simulada" description="Caso principal: Horizonte Ficticio S.A.S. La recomendación es de revisión humana. No es un concepto jurídico." actions={<Link className="rounded-md bg-brand-burgundy px-3 py-2 text-sm font-semibold text-white" href="/empresas/DEMO-EMP-0002">Abrir ficha 360</Link>} />
+      <PageHeader title="Insolvencia" description={`${empresa.razonSocial}. La ficha reúne la evolución financiera, el expediente y las reglas aplicadas.`} actions={<Link className="rounded-full bg-brand-burgundy px-4 py-2 text-sm font-semibold text-white" href="/empresas/DEMO-EMP-0002">Abrir ficha 360</Link>} />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <h2 className="font-semibold">Ingresos y patrimonio</h2>
-          <SimpleBars data={fins.map((f) => ({ periodo: f.periodo, ingresos: Math.round(f.ingresos / 1_000_000), patrimonio: Math.round(f.patrimonio / 1_000_000) }))} x="periodo" y="ingresos" label="Ingresos de Horizonte Ficticio" />
+          <SimpleBars data={fins.map((f) => ({ periodo: f.periodo, ingresos: Math.round(f.ingresos / 1_000_000), patrimonio: Math.round(f.patrimonio / 1_000_000) }))} x="periodo" y="ingresos" label="Ingresos de la sociedad" />
           <ul className="text-sm">{fins.map((f) => <li key={f.id}>{f.periodo}: activos/pasivos {(f.activos / f.pasivos).toFixed(2)} · utilidad {formatCOP(f.utilidad)}</li>)}</ul>
         </Card>
         <Card>

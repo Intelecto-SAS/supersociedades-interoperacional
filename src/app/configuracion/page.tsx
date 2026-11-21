@@ -19,9 +19,9 @@ export default function ConfiguracionPage() {
   };
   return (
     <div>
-      <PageHeader title="Configuración" description="El rol es simulado y no representa un control de acceso de producción." />
+      <PageHeader title="Preferencias" description="Contexto de operación, perfil de trabajo y copia de la sesión." />
       <Card className="space-y-3">
-        <p className="text-sm">Escenario actual: {state.escenario}. Rol simulado: {state.rol}.</p>
+        <p className="text-sm">Contexto: {state.escenario}. Perfil: {state.rol}.</p>
         <div className="flex flex-wrap gap-2">
           <Button onClick={exportar}>Exportar estado</Button>
           <label className="rounded-md border px-3 py-2 text-sm">Importar estado
@@ -38,7 +38,7 @@ export default function ConfiguracionPage() {
               }
             }} />
           </label>
-          <Button variant="danger" onClick={() => { if (confirm("¿Borrar las acciones locales de la demostración?")) { state.reset(); setMsg("Demostración restablecida."); } }}>Restablecer</Button>
+          <Button variant="danger" onClick={() => { if (confirm("¿Restablecer la sesión de este navegador?")) { state.reset(); setMsg("Sesión restablecida."); } }}>Restablecer sesión</Button>
         </div>
         {msg ? <p role="status" className="text-sm text-emerald-800">{msg}</p> : null}
         {error ? <p role="alert" className="text-sm text-flag-red">{error}</p> : null}

@@ -23,7 +23,7 @@ export default function InformesPage() {
   const toggle = (s: string) => setSecciones((cur) => cur.includes(s) ? cur.filter((x) => x !== s) : [...cur, s]);
   return (
     <div className="print:bg-white">
-      <PageHeader title="Informes gerenciales" description="La acción de PDF abre la vista de impresión del navegador. También puede descargar JSON o CSV." actions={<><Button variant="secondary" onClick={() => window.print()}>Imprimir o guardar como PDF</Button><Button variant="secondary" onClick={() => { const blob = new Blob([JSON.stringify(json, null, 2)], { type: "application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "informe-demo.json"; a.click(); }}>Descargar JSON</Button><Button variant="secondary" onClick={() => { const blob = new Blob([toCsv([{ tipo, empresas: metrics.empresas, alertas: metrics.alertasAbiertas }])], { type: "text/csv" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "informe-demo.csv"; a.click(); }}>Descargar CSV</Button></>} />
+      <PageHeader title="Informes gerenciales" description="Arme el informe, descárguelo o imprímalo." actions={<><Button variant="secondary" onClick={() => window.print()}>Imprimir</Button><Button variant="secondary" onClick={() => { const blob = new Blob([JSON.stringify(json, null, 2)], { type: "application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "informe.json"; a.click(); }}>Descargar JSON</Button><Button variant="secondary" onClick={() => { const blob = new Blob([toCsv([{ tipo, empresas: metrics.empresas, alertas: metrics.alertasAbiertas }])], { type: "text/csv" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "informe.csv"; a.click(); }}>Descargar CSV</Button></>} />
       <div className="no-print mb-4 grid gap-2 md:grid-cols-2">
         <select aria-label="Tipo de informe" className="rounded border px-2 py-1" value={tipo} onChange={(e) => setTipo(e.target.value)}>{TIPOS.map((t) => <option key={t}>{t}</option>)}</select>
         <select aria-label="Empresa del informe" className="rounded border px-2 py-1" value={empresa} onChange={(e) => setEmpresa(e.target.value)}>{data.empresas.slice(0, 10).map((e) => <option key={e.id} value={e.id}>{e.razonSocial}</option>)}</select>
@@ -31,14 +31,14 @@ export default function InformesPage() {
         <div className="flex flex-wrap gap-2 text-sm">{["Indicadores", "Hallazgos", "Fuentes", "Advertencias"].map((s) => <label key={s}><input type="checkbox" checked={secciones.includes(s)} onChange={() => toggle(s)} /> {s}</label>)}</div>
       </div>
       <Card>
-        <p className="text-xs uppercase text-brand-burgundy">DEMO · DATOS SIMULADOS</p>
+        <p className="text-xs uppercase tracking-wide text-brand-burgundy">CONECTA 360</p>
         <h2 className="text-xl font-bold">{tipo}</h2>
         <p className="text-sm">Generado el 29 de octubre de 2025 · Escenario {escenario} · Periodo {periodo}</p>
-        <p className="mt-3 text-sm">Resumen: el laboratorio observa {formatNumber(metrics.empresas)} empresas ficticias y {formatNumber(metrics.alertasAbiertas)} alertas abiertas. {emp?.razonSocial} está en riesgo {emp?.nivelRiesgo}.</p>
-        {secciones.includes("Indicadores") ? <p className="mt-2 text-sm">Calidad media {metrics.calidad}. Conectores operativos {metrics.conectoresActivos}.</p> : null}
-        {secciones.includes("Hallazgos") ? <p className="mt-2 text-sm">Horizonte Ficticio S.A.S. concentra las señales de insolvencia diseñadas para la presentación.</p> : null}
-        {secciones.includes("Fuentes") ? <p className="mt-2 text-sm">Fuentes ficticias: RUES, SIREM, SECOP II, Rama Judicial. Acceso real: por verificar.</p> : null}
-        <p className="mt-4 text-xs">Advertencia: prototipo independiente. No está conectado a sistemas oficiales. Pie de página de demostración.</p>
+        <p className="mt-3 text-sm">Resumen: {formatNumber(metrics.empresas)} sociedades en seguimiento y {formatNumber(metrics.alertasAbiertas)} alertas abiertas. {emp?.razonSocial} está en riesgo {emp?.nivelRiesgo}.</p>
+        {secciones.includes("Indicadores") ? <p className="mt-2 text-sm">Calidad media {metrics.calidad}. Fuentes operativas {metrics.conectoresActivos}.</p> : null}
+        {secciones.includes("Hallazgos") ? <p className="mt-2 text-sm">Horizonte Construcciones S.A.S. concentra las señales de dificultad financiera.</p> : null}
+        {secciones.includes("Fuentes") ? <p className="mt-2 text-sm">Fuentes: RUES, SIREM, SECOP II y Rama Judicial.</p> : null}
+        <p className="mt-4 text-xs text-slate-500">Informe generado en CONECTA 360 · corte 29 de octubre de 2025.</p>
       </Card>
     </div>
   );

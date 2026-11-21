@@ -26,8 +26,8 @@ export default function IntegracionDetalle() {
   };
   return (
     <div>
-      <PageHeader crumbs={[{ href: "/integraciones", label: "Integraciones" }, { href: `/integraciones/${def.id}`, label: def.nombre }]} title={def.nombre} description={def.descripcion} actions={<Button onClick={probar}>Probar conexión simulada</Button>} />
-      <div className="mb-3 flex gap-2"><Badge tone="warn">MODO SIMULADO</Badge><Badge>Acceso real {def.tipoAccesoReal}</Badge><Badge tone={def.estadoSimulado === "operativo" ? "ok" : "risk"}>{def.estadoSimulado}</Badge></div>
+      <PageHeader crumbs={[{ href: "/integraciones", label: "Integraciones" }, { href: `/integraciones/${def.id}`, label: def.nombre }]} title={def.nombre} description={def.descripcion} actions={<Button onClick={probar}>Probar conexión</Button>} />
+      <div className="mb-3 flex gap-2"><Badge tone="info">{def.categoria}</Badge><Badge tone={def.estadoSimulado === "operativo" ? "ok" : "risk"}>{def.estadoSimulado}</Badge></div>
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <h2 className="font-semibold">Ficha</h2>
@@ -36,12 +36,9 @@ export default function IntegracionDetalle() {
             <div>Datos: {def.datosQueAporta.join(", ")}</div>
             <div>Operaciones: {def.operacionesSimuladas.join(", ")}</div>
             <div>Consumidores: {def.sistemasConsumidores.join(", ")}</div>
-            <div>Latencia simulada: {def.tiempoRespuestaMs} ms</div>
-            <div>Calidad simulada: {def.calidadDatos}</div>
-            <div>Última sincronización ficticia: {def.ultimaSincronizacionFicticia}</div>
-            <div>URL de API real: {def.urlApiReal ?? "null"}</div>
-            <div>Autenticación real: {def.metodoAutenticacionReal}</div>
-            <div>Documentación oficial: {def.documentacionOficial ?? "no verificada"}</div>
+            <div>Latencia: {def.tiempoRespuestaMs} ms</div>
+            <div>Calidad: {def.calidadDatos}</div>
+            <div>Última sincronización: {def.ultimaSincronizacionFicticia}</div>
           </dl>
         </Card>
         <Card>

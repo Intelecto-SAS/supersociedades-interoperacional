@@ -37,7 +37,7 @@ export function FlowCanvas({ flow }: { flow: FlowDefinition }) {
       <div className="space-y-3">
         <div className="flex flex-wrap gap-2">
           <Button onClick={() => ejecutar(false)}>Ejecutar</Button>
-          <Button variant="secondary" onClick={() => ejecutar(true)}>Simular error</Button>
+          <Button variant="secondary" onClick={() => ejecutar(true)}>Forzar incidencia</Button>
           <Button variant="secondary" onClick={() => ejecutar(false)}>Reintentar</Button>
           <Button variant="secondary" onClick={() => setCustom("guardado")}>Guardar cambios locales</Button>
           <Button variant="secondary" onClick={() => setCustom(null)}>Restaurar flujo</Button>

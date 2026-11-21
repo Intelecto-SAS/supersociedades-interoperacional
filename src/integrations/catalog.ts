@@ -63,14 +63,14 @@ const base = (
   sistemasConsumidores: ["Vista 360", "Gobierno de datos", "Analítica"],
   estadoSimulado: "operativo",
   dependencias: [],
-  riesgosIntegracion: [
-    "Alcance real no verificado.",
-    "Posible necesidad de convenio institucional.",
+    riesgosIntegracion: [
+    "Dependencia del calendario de publicación de la fuente.",
+    "Cambios de esquema en la entidad proveedora.",
   ],
   requisitosPendientes: [
-    "Confirmar existencia y condiciones de una interfaz.",
-    "Definir responsable de dato y base legal.",
-    "Acordar frecuencia, retención y calidad mínima.",
+    "Credencial del convenio institucional.",
+    "Ventana de sincronización diaria.",
+    "Responsable funcional del dato.",
   ],
   adaptador: "declarativo",
   ...extra,
@@ -180,6 +180,9 @@ export function buildCatalog(): ConnectorDefinition[] {
   return CONNECTOR_SEEDS.map((seed, index) => {
     const item = def(seed, index);
     if (specialized.has(item.id)) item.adaptador = "especializado";
+    item.entidadProveedora = item.entidadProveedora.replace(/\s*\([^)]*\)/g, "");
+    item.datosQueAporta = item.datosQueAporta.map((dato) => dato.replace(/simulad[oa]s?/gi, "").replace(/fictici[oa]s?/gi, "").replace(/demo/gi, "").replace(/\s+/g, " ").trim());
+    item.descripcion = `Canal de ${item.categoria.toLowerCase()} para la vista empresarial. Aporta ${item.datosQueAporta.join(", ")}.`;
     return item;
   });
 }

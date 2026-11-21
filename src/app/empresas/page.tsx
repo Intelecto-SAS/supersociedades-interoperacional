@@ -31,7 +31,7 @@ function EmpresasInner() {
   ];
   return (
     <div>
-      <PageHeader title="Centro de empresas" description="200 sociedades ficticias con el mismo identificador en finanzas, contratos, procesos, expedientes y alertas." />
+      <PageHeader title="Sociedades" description="Doscientas sociedades con el mismo identificador en finanzas, contratos, procesos, expedientes y alertas." />
       <div className="mb-3 grid gap-2 md:grid-cols-3">
         <TextInput aria-label="Filtrar empresas" placeholder="Nombre o DEMO-EMP" value={q} onChange={(e) => setQ(e.target.value)} />
         <select aria-label="Sector" className="rounded-md border px-2" value={sector} onChange={(e) => setSector(e.target.value)}>

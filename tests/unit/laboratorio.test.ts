@@ -47,7 +47,7 @@ describe("laboratorio", () => {
     const empresa = data.empresas.find((e) => e.id === "DEMO-EMP-0006")!;
     const caso = casoCalidadPacifico(empresa, data.reportes);
     expect(caso.consolidado.title).toBe(empresa.razonSocial);
-    expect(caso.registrosOriginales.some((r) => r.title === "PACIF SIMULADO")).toBe(true);
+    expect(caso.registrosOriginales.some((r) => r.title === "PACIF AGRO")).toBe(true);
   });
 
   it("dispara reglas del caso de insolvencia", () => {
@@ -58,7 +58,7 @@ describe("laboratorio", () => {
   });
 
   it("clasifica texto local", () => {
-    const result = clasificarTexto("Solicitud de reorganización de Horizonte Ficticio S.A.S. por pasivos.");
+    const result = clasificarTexto("Solicitud de reorganización de Horizonte Construcciones S.A.S. por pasivos.");
     expect(result.clasificacion).toBe("Insolvencia");
     expect(result.empresaId).toBe("DEMO-EMP-0002");
     expect(result.motor).toBe("reglas_locales");

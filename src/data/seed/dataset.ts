@@ -55,24 +55,24 @@ const TIPOS = ["S.A.S.", "S.A.", "Ltda.", "S.C.A."] as const;
 const TAMANOS: Empresa["tamanoEmpresarial"][] = ["micro", "pequena", "mediana", "grande"];
 const MODALIDADES = ["Licitación pública", "Selección abreviada", "Mínima cuantía", "Contratación directa"];
 const ENTIDADES = [
-  "Alcaldía Demostrativa de Puerto Ejemplo",
-  "Gobernación Ficticia del Norte",
-  "Instituto Simulado de Infraestructura",
-  "Empresa Pública de Servicios Demo",
-  "Fondo Territorial de Prueba",
+  "Alcaldía de Puerto Verde",
+  "Gobernación de la Sabana Norte",
+  "Instituto Regional de Infraestructura",
+  "Empresa de Servicios del Litoral",
+  "Fondo de Desarrollo Territorial",
 ];
 
 const FEATURED: Array<Partial<Empresa> & { razonSocial: string; historia: string }> = [
-  { razonSocial: "Andina Ejemplo S.A.S.", tipoSocietario: "S.A.S.", sector: "Manufactura", departamento: "Antioquia", municipio: "Medellín", nivelRiesgo: "baja", etiquetas: ["caso-360", "referencia"], historia: "Caso de referencia con fuentes consistentes." },
-  { razonSocial: "Horizonte Ficticio S.A.S.", tipoSocietario: "S.A.S.", sector: "Construcción", departamento: "Valle del Cauca", municipio: "Cali", nivelRiesgo: "critica", etiquetas: ["insolvencia", "caso-principal"], historia: "Caída de ingresos, pasivos crecientes y expediente de seguimiento." },
-  { razonSocial: "Laboratorio Empresarial Delta S.A.S.", tipoSocietario: "S.A.S.", sector: "Tecnología", departamento: "Bogotá D.C.", municipio: "Bogotá", nivelRiesgo: "media", etiquetas: ["innovacion"], historia: "Crecimiento con vacíos documentales." },
-  { razonSocial: "Comercializadora Prueba Uno S.A.S.", tipoSocietario: "S.A.S.", sector: "Comercio", departamento: "Atlántico", municipio: "Barranquilla", nivelRiesgo: "alta", etiquetas: ["contratos", "concentracion"], historia: "Alta participación contractual con una sola entidad." },
-  { razonSocial: "Innovación Demostrativa S.A.S.", tipoSocietario: "S.A.S.", sector: "Servicios profesionales", departamento: "Cundinamarca", municipio: "Soacha", nivelRiesgo: "baja", etiquetas: ["relaciones"], historia: "Vínculos societarios de demostración." },
-  { razonSocial: "Pacífico Simulado S.A.", razonSocialCorta: "PACIF SIMULADO", tipoSocietario: "S.A.", sector: "Agroindustria", departamento: "Nariño", municipio: "Pasto", nivelRiesgo: "alta", etiquetas: ["calidad-datos", "duplicado"], historia: "Nombre abreviado en una fuente y completo en otra." },
-  { razonSocial: "Andes Norte Demostración S.A.S.", tipoSocietario: "S.A.S.", sector: "Energía", departamento: "Santander", municipio: "Bucaramanga", nivelRiesgo: "media", etiquetas: ["territorio"], historia: "Comparativo territorial." },
-  { razonSocial: "Caribe Ejemplo Ltda.", tipoSocietario: "Ltda.", sector: "Transporte", departamento: "Bolívar", municipio: "Cartagena", nivelRiesgo: "media", etiquetas: ["procesos"], historia: "Procesos jurídicos asociados." },
-  { razonSocial: "Orinoquía Ficticia S.A.", tipoSocietario: "S.A.", sector: "Minería", departamento: "Meta", municipio: "Villavicencio", nivelRiesgo: "alta", etiquetas: ["reporte-tardio"], historia: "Reporte financiero desactualizado." },
-  { razonSocial: "Valle Demo Industrial S.A.S.", tipoSocietario: "S.A.S.", sector: "Manufactura", departamento: "Valle del Cauca", municipio: "Cali", nivelRiesgo: "baja", etiquetas: ["comparacion"], historia: "Par de comparación industrial." },
+  { razonSocial: "Andina Alimentos S.A.S.", tipoSocietario: "S.A.S.", sector: "Manufactura", departamento: "Antioquia", municipio: "Medellín", nivelRiesgo: "baja", etiquetas: ["caso-360", "referencia"], historia: "Caso de referencia con fuentes consistentes." },
+  { razonSocial: "Horizonte Construcciones S.A.S.", tipoSocietario: "S.A.S.", sector: "Construcción", departamento: "Valle del Cauca", municipio: "Cali", nivelRiesgo: "critica", etiquetas: ["insolvencia", "caso-principal"], historia: "Caída de ingresos, pasivos crecientes y expediente de seguimiento." },
+  { razonSocial: "Delta Laboratorios S.A.S.", tipoSocietario: "S.A.S.", sector: "Tecnología", departamento: "Bogotá D.C.", municipio: "Bogotá", nivelRiesgo: "media", etiquetas: ["innovacion"], historia: "Crecimiento con vacíos documentales." },
+  { razonSocial: "Comercializadora del Caribe S.A.S.", tipoSocietario: "S.A.S.", sector: "Comercio", departamento: "Atlántico", municipio: "Barranquilla", nivelRiesgo: "alta", etiquetas: ["contratos", "concentracion"], historia: "Alta participación contractual con una sola entidad." },
+  { razonSocial: "Innova Andes S.A.S.", tipoSocietario: "S.A.S.", sector: "Servicios profesionales", departamento: "Cundinamarca", municipio: "Soacha", nivelRiesgo: "baja", etiquetas: ["relaciones"], historia: "Vínculos societarios." },
+  { razonSocial: "Pacífico Agroindustrial S.A.", razonSocialCorta: "PACIF AGRO", tipoSocietario: "S.A.", sector: "Agroindustria", departamento: "Nariño", municipio: "Pasto", nivelRiesgo: "alta", etiquetas: ["calidad-datos", "duplicado"], historia: "Nombre abreviado en una fuente y completo en otra." },
+  { razonSocial: "Andes Norte Energía S.A.S.", tipoSocietario: "S.A.S.", sector: "Energía", departamento: "Santander", municipio: "Bucaramanga", nivelRiesgo: "media", etiquetas: ["territorio"], historia: "Comparativo territorial." },
+  { razonSocial: "Caribe Logística Ltda.", tipoSocietario: "Ltda.", sector: "Transporte", departamento: "Bolívar", municipio: "Cartagena", nivelRiesgo: "media", etiquetas: ["procesos"], historia: "Procesos jurídicos asociados." },
+  { razonSocial: "Orinoquía Minera S.A.", tipoSocietario: "S.A.", sector: "Minería", departamento: "Meta", municipio: "Villavicencio", nivelRiesgo: "alta", etiquetas: ["reporte-tardio"], historia: "Reporte financiero desactualizado." },
+  { razonSocial: "Valle Industrial S.A.S.", tipoSocietario: "S.A.S.", sector: "Manufactura", departamento: "Valle del Cauca", municipio: "Cali", nivelRiesgo: "baja", etiquetas: ["comparacion"], historia: "Par de comparación industrial." },
 ];
 
 export type Dataset = {
@@ -205,7 +205,7 @@ export function createDataset(): Dataset {
       id: `DEMO-EMP-${pad(n)}`,
       identificadorDemo: `DEMO-EMP-${pad(n)}`,
       nitDemo: `DEMO-NIT-${pad(n)}`,
-      razonSocial: `${pick(rng, ["Andes", "Rio", "Litoral", "Cumbre", "Sabana", "Bruma", "Norte", "Sur"])} ${pick(rng, ["Ejemplo", "Demostración", "Ficticia", "Prueba", "Simulada"])} ${tipo}`,
+      razonSocial: `${pick(rng, ["Andes", "Río", "Litoral", "Cumbre", "Sabana", "Bruma", "Norte", "Sur"])} ${pick(rng, ["Andina", "del Valle", "del Pacífico", "Nacional", "Asociados"])} ${tipo}`,
       tipoSocietario: tipo,
       actividadCiiu: incompleta ? "" : ciiu(sector),
       sector,
@@ -261,7 +261,7 @@ export function createDataset(): Dataset {
       id: `DEMO-CON-${pad(i)}`,
       empresaId: empresa.id,
       entidadContratanteFicticia: pick(rng, ENTIDADES),
-      objeto: `Suministro de demostración ${i} para ${empresa.sector.toLowerCase()}`,
+        objeto: `Suministro ${i} para ${empresa.sector.toLowerCase()}`,
       valorCOP: Math.round((50_000_000 + rng() * (empresa.id === "DEMO-EMP-0004" ? 8_000_000_000 : 2_000_000_000)) / 1000) * 1000,
       fecha: `202${2 + (i % 3)}-${pad(1 + (i % 12), 2)}-${pad(1 + (i % 27), 2)}`,
       modalidad: pick(rng, MODALIDADES),
@@ -292,19 +292,19 @@ export function createDataset(): Dataset {
     expedientes.push({
       id: `DEMO-EXP-${pad(i)}`,
       empresaId: empresa.id,
-      tipo: i === 1 ? "Insolvencia simulada" : pick(rng, ["Supervisión", "Documental", "Contratación", "Societario"]),
+      tipo: i === 1 ? "Insolvencia" : pick(rng, ["Supervisión", "Documental", "Contratación", "Societario"]),
       estado: i === 1 ? "en_seguimiento" : pick(rng, ["abierto", "en_seguimiento", "cerrado"]),
-      responsableDemo: pick(rng, ["Equipo demo jurídica", "Equipo demo financiera", "Equipo demo supervisión"]),
-      resumen: i === 1 ? "Expediente principal de Horizonte Ficticio S.A.S. con señales de dificultad financiera." : `Expediente de demostración ${i} de ${empresa.razonSocial}.`,
+      responsableDemo: pick(rng, ["Equipo jurídico", "Equipo financiero", "Equipo de supervisión"]),
+      resumen: i === 1 ? "Expediente de Horizonte Construcciones S.A.S. con señales de dificultad financiera." : `Expediente ${i} de ${empresa.razonSocial}.`,
       fechaApertura: `2024-${pad(1 + (i % 12), 2)}-${pad(1 + (i % 27), 2)}`,
     });
   }
 
   const documentos: Documento[] = [];
   const muestras = [
-    "Solicitud de ejemplo radicada por Horizonte Ficticio S.A.S. sobre reorganización simulada.",
-    "Estado financiero de demostración con caída de ingresos operacionales.",
-    "Contrato ficticio de suministro con la Alcaldía Demostrativa de Puerto Ejemplo.",
+    "Solicitud radicada por Horizonte Construcciones S.A.S. sobre reorganización.",
+    "Estado financiero con caída de ingresos operacionales.",
+    "Contrato de suministro con la Alcaldía de Puerto Verde.",
   ];
   for (let i = 1; i <= 300; i += 1) {
     const exp = expedientes[(i - 1) % expedientes.length]!;
@@ -312,11 +312,11 @@ export function createDataset(): Dataset {
       id: `DEMO-DOC-${pad(i)}`,
       expedienteId: i % 17 === 0 ? null : exp.id,
       empresaId: exp.empresaId,
-      nombre: i <= 3 ? `Ejemplo precargado ${i}.txt` : `Documento ficticio ${i}.pdf`,
+      nombre: i <= 3 ? `Documento ${i}.txt` : `Documento ${i}.pdf`,
       tipo: pick(rng, ["Memorial", "Estados financieros", "Contrato", "Certificación", "Oficio"]),
       fecha: `2025-${pad(1 + (i % 10), 2)}-${pad(1 + (i % 27), 2)}`,
       clasificacion: i === 1 ? "Insolvencia" : pick(rng, ["Financiero", "Contractual", "Societario", "Atención"]),
-      contenidoFicticio: i <= 3 ? muestras[i - 1]! : `Texto de ejemplo ${i} asociado a ${exp.empresaId}. No es un documento real.`,
+      contenidoFicticio: i <= 3 ? muestras[i - 1]! : `Texto del documento ${i} asociado a ${exp.empresaId}.`,
       confianzaSimulada: i <= 3 ? 0.86 : Math.round((0.6 + rng() * 0.38) * 100) / 100,
     });
   }
@@ -328,7 +328,7 @@ export function createDataset(): Dataset {
       id: `DEMO-ACT-${pad(i)}`,
       expedienteId: exp.id,
       empresaId: exp.empresaId,
-      descripcion: `Actuación de demostración ${i}: revisión de piezas del expediente ${exp.id}.`,
+      descripcion: `Actuación ${i}: revisión de piezas del expediente ${exp.id}.`,
       fecha: `2025-${pad(1 + (i % 10), 2)}-${pad(1 + (i % 27), 2)}`,
       tipo: pick(rng, ["Reparto", "Requerimiento", "Respuesta", "Nota interna"]),
     });
@@ -370,7 +370,7 @@ export function createDataset(): Dataset {
     evidencias: ["DEMO-FIN-0002-2023", "DEMO-FIN-0002-2024"],
     estado: "en_revision",
     fecha: "2025-10-16",
-    responsableDemo: "Equipo demo financiera",
+    responsableDemo: "Equipo financiero",
   });
   pushAlert({
     id: "DEMO-ALR-0004",
@@ -389,7 +389,7 @@ export function createDataset(): Dataset {
     empresaId: "DEMO-EMP-0004",
     tipo: "Contratación",
     severidad: "alta",
-    descripcion: "Concentración de contratos simulados con una sola entidad contratante.",
+    descripcion: "Concentración de contratos con una sola entidad contratante.",
     reglaAplicada: "R-CONCENTRACION",
     evidencias: ["DEMO-CON-0001"],
     estado: "abierta",
@@ -405,12 +405,12 @@ export function createDataset(): Dataset {
       empresaId: empresa.id,
       tipo,
       severidad: empresa.nivelRiesgo === "baja" ? "baja" : pick(rng, ["media", "alta"] as const),
-      descripcion: `Señal de demostración ${i} (${tipo.toLowerCase()}) sobre ${empresa.razonSocial}.`,
+      descripcion: `Señal ${i} de tipo ${tipo.toLowerCase()} sobre ${empresa.razonSocial}.`,
       reglaAplicada: tipo === "Calidad" ? "R-INCOMPLETA" : tipo === "Jurídico" ? "R-PROCESOS" : "R-VARIACION",
       evidencias: [empresa.id],
       estado: rng() > 0.72 ? "cerrada" : rng() > 0.55 ? "en_revision" : "abierta",
       fecha: `2025-${pad(1 + (i % 10), 2)}-${pad(1 + (i % 27), 2)}`,
-      responsableDemo: rng() > 0.6 ? "Equipo demo supervisión" : null,
+      responsableDemo: rng() > 0.6 ? "Equipo de supervisión" : null,
     });
   }
 
@@ -443,7 +443,7 @@ export function createDataset(): Dataset {
     estado: c.estadoSimulado === "degradado" ? "parcial" : "ok",
     fecha: c.ultimaSincronizacionFicticia,
     duracionMs: c.tiempoRespuestaMs,
-    detalle: "Sincronización ficticia de catálogo.",
+    detalle: "Sincronización del catálogo.",
   }));
 
   const auditoria: EventoAuditoria[] = [
@@ -453,7 +453,7 @@ export function createDataset(): Dataset {
       usuarioDemo: "sistema_demo",
       recurso: "dataset",
       fecha: "2025-10-29T08:00:00-05:00",
-      detalle: "Carga determinista del laboratorio. Semilla 3602025.",
+      detalle: "Carga del corte del 29 de octubre de 2025.",
     },
   ];
 

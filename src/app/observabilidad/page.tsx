@@ -20,18 +20,18 @@ export default function ObservabilidadPage() {
   };
   return (
     <div>
-      <PageHeader title="Observabilidad" description="Los estados son simulados. No hay acuerdos de nivel de servicio ni disponibilidad real." />
+      <PageHeader title="Operación de integraciones" description="Estado, latencia y última ejecución de cada fuente." />
       <Card className="mb-4">
         <label className="text-sm">Conector
           <select className="ml-2 rounded border px-2 py-1" value={id} onChange={(e) => setId(e.target.value)}>{data.conectores.map((c) => <option key={c.id} value={c.id}>{c.nombre}</option>)}</select>
         </label>
         <p className="mt-2 text-sm">Estado {connector.estadoSimulado}. Latencia base {connector.tiempoRespuestaMs} ms. Ejecuciones de catálogo: {data.ejecuciones.filter((e) => e.sourceId === id).length}.</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Button variant="danger" onClick={() => { simular(id, { estado: "caido" }); setMsg("Caída simulada. Los flujos que lean esta fuente deben detenerse de forma controlada."); }}>Simular caída</Button>
+          <Button variant="danger" onClick={() => { simular(id, { estado: "caido" }); setMsg("La fuente quedó fuera de línea. Los flujos que dependan de ella se detienen de forma controlada."); }}>Marcar caída</Button>
           <Button variant="secondary" onClick={() => simular(id, { estado: "degradado", latenciaExtraMs: 1800 })}>Latencia alta</Button>
           <Button variant="secondary" onClick={() => simular(id, { invalido: true, estado: "degradado" })}>Respuesta inválida</Button>
           <Button variant="secondary" onClick={() => simular(id, { incompleto: true, estado: "incompleto" })}>Datos incompletos</Button>
-          <Button onClick={() => { simular(id, { estado: "operativo", latenciaExtraMs: 0, invalido: false, incompleto: false }); setMsg("Servicio simulado recuperado."); }}>Recuperar</Button>
+          <Button onClick={() => { simular(id, { estado: "operativo", latenciaExtraMs: 0, invalido: false, incompleto: false }); setMsg("Fuente recuperada."); }}>Recuperar</Button>
           <Button variant="secondary" onClick={reintentar}>Reintentar sincronización</Button>
         </div>
         {msg ? <p role="status" className="mt-3 text-sm">{msg}</p> : null}

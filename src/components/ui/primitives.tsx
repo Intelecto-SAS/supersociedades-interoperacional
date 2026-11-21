@@ -16,7 +16,7 @@ export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
 }
 
 export function Card({ children, className }: { children: ReactNode; className?: string }) {
-  return <section className={cn("rounded-xl border border-surface-line bg-white p-4 shadow-card", className)}>{children}</section>;
+  return <section className={cn("rounded-2xl border border-surface-line bg-white p-5 shadow-card", className)}>{children}</section>;
 }
 
 export function Badge({ children, tone = "neutral" }: { children: ReactNode; tone?: "neutral" | "ok" | "warn" | "risk" | "info" }) {

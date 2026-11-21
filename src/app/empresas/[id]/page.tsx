@@ -31,7 +31,7 @@ export default function EmpresaPage() {
   const relaciones = data.relaciones.filter((r) => r.origen === id || r.destino === id);
   const expedientes = data.expedientes.filter((e) => e.empresaId === id);
   const evaluacion = useMemo(() => empresa ? evaluarEmpresa(data, empresa.id) : [], [data, empresa]);
-  if (!empresa) return <Empty>No existe la empresa ficticia {id}.</Empty>;
+      if (!empresa) return <Empty>No hay una sociedad con el identificador {id}.</Empty>;
   const original = empresaFromSource(empresa, "rues");
   const normalizado = reporteNormalizado(reportes[0] ?? {
     id: "na", empresaId: empresa.id, periodo: "2024", ingresos: 0, activos: 0, pasivos: 0, patrimonio: 0, utilidad: 0, fuente: "sirem", fechaCorte: "2024-12-31", calidadDato: empresa.calidadRegistro,
@@ -57,8 +57,8 @@ export default function EmpresaPage() {
           <>
             <Button onClick={() => { setNotice("Informe listo en la vista de impresión."); window.print(); }}>Generar informe</Button>
             <Button variant="secondary" onClick={() => setNotice(`Alerta de revisión creada en esta sesión para ${empresa.id}.`)}>Crear alerta</Button>
-            <Button variant="secondary" onClick={() => { addExpediente({ id: `DEMO-EXP-LOCAL-${empresa.id}`, empresaId: empresa.id, tipo: "Seguimiento", estado: "abierto", responsableDemo: "Equipo demo", resumen: "Expediente abierto desde la ficha.", fechaApertura: "2025-10-29" }); setNotice("Expediente ficticio creado en este navegador."); }}>Abrir expediente</Button>
-            <Button variant="secondary" onClick={() => { auditar("actualizacion_simulada", empresa.id); setNotice("Actualización simulada registrada. No hubo consulta externa."); }}>Actualizar</Button>
+            <Button variant="secondary" onClick={() => { addExpediente({ id: `DEMO-EXP-LOCAL-${empresa.id}`, empresaId: empresa.id, tipo: "Seguimiento", estado: "abierto", responsableDemo: "Equipo jurídico", resumen: "Expediente abierto desde la ficha.", fechaApertura: "2025-10-29" }); setNotice("Expediente creado."); }}>Abrir expediente</Button>
+            <Button variant="secondary" onClick={() => { auditar("actualizacion", empresa.id); setNotice("Actualización registrada en la ficha."); }}>Actualizar</Button>
             <Button variant="secondary" onClick={exportar}>Exportar ficha</Button>
           </>
         }
@@ -66,7 +66,7 @@ export default function EmpresaPage() {
       <div className="mb-3 flex flex-wrap gap-2">
         <Badge tone="info">{empresa.estadoMatriculaSimulado}</Badge>
         <Badge tone={empresa.nivelRiesgo === "critica" || empresa.nivelRiesgo === "alta" ? "risk" : "ok"}>Riesgo {empresa.nivelRiesgo}</Badge>
-        <Badge>Actualización ficticia 29 oct 2025</Badge>
+        <Badge>Actualizado el 29 oct 2025</Badge>
       </div>
       {notice ? <p role="status" className="mb-3 rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-900">{notice}</p> : null}
       <div className="mb-4 flex gap-1 overflow-x-auto" role="tablist">
@@ -76,7 +76,7 @@ export default function EmpresaPage() {
         <div className="grid gap-4 lg:grid-cols-2">
           <Card>
             <h2 className="font-semibold">Línea de tiempo</h2>
-            <ol className="mt-2 space-y-2 text-sm">{[{ f: empresa.fechaConstitucionFicticia, t: "Constitución ficticia" }, ...reportes.map((r) => ({ f: r.fechaCorte, t: `Corte ${r.periodo}` })), ...alertas.slice(0, 3).map((a) => ({ f: a.fecha, t: a.descripcion }))].map((e) => <li key={e.t}><span className="text-slate-500">{formatDate(e.f)}</span> · {e.t}</li>)}</ol>
+            <ol className="mt-2 space-y-2 text-sm">{[{ f: empresa.fechaConstitucionFicticia, t: "Constitución" }, ...reportes.map((r) => ({ f: r.fechaCorte, t: `Corte ${r.periodo}` })), ...alertas.slice(0, 3).map((a) => ({ f: a.fecha, t: a.descripcion }))].map((e) => <li key={e.t}><span className="text-slate-500">{formatDate(e.f)}</span> · {e.t}</li>)}</ol>
           </Card>
           <Card>
             <h2 className="font-semibold">Ingresos</h2>
@@ -85,11 +85,11 @@ export default function EmpresaPage() {
           </Card>
         </div>
       )}
-      {tab === "Empresarial" && <Card><p>Tipo {empresa.tipoSocietario}. CIIU {empresa.actividadCiiu || "sin dato"}. Tamaño {empresa.tamanoEmpresarial}. Supervisión {empresa.estadoSupervisionSimulado}.</p>{empresa.razonSocialCorta ? <p className="mt-2">Alias en fuente tributaria simulada: {empresa.razonSocialCorta}.</p> : null}</Card>}
+      {tab === "Empresarial" && <Card><p>Tipo {empresa.tipoSocietario}. CIIU {empresa.actividadCiiu || "sin dato"}. Tamaño {empresa.tamanoEmpresarial}. Supervisión {empresa.estadoSupervisionSimulado}.</p>{empresa.razonSocialCorta ? <p className="mt-2">Alias en la fuente tributaria: {empresa.razonSocialCorta}.</p> : null}</Card>}
       {tab === "Financiera" && <Card><table className="w-full text-sm"><thead><tr>{["Periodo", "Ingresos", "Activos", "Pasivos", "Patrimonio", "Utilidad", "Fuente"].map((h) => <th key={h} className="text-left">{h}</th>)}</tr></thead><tbody>{reportes.map((r) => <tr key={r.id}><td>{r.periodo}</td><td>{formatCOP(r.ingresos)}</td><td>{formatCOP(r.activos)}</td><td>{formatCOP(r.pasivos)}</td><td>{formatCOP(r.patrimonio)}</td><td>{formatCOP(r.utilidad)}</td><td>{r.fuente}</td></tr>)}</tbody></table></Card>}
       {tab === "Contratación" && <Card>{contratos.length ? contratos.slice(0, 12).map((c) => <p key={c.id} className="text-sm">{c.id} · {formatCOP(c.valorCOP)} · {c.entidadContratanteFicticia}</p>) : <Empty>Sin contratos en la muestra.</Empty>}</Card>}
       {tab === "Jurídico" && <Card>{procesos.length ? procesos.map((p) => <p key={p.id} className="text-sm">{p.radicadoFicticio} · {p.tipo} · {p.estado}</p>) : <Empty>Sin procesos asociados.</Empty>}</Card>}
-      {tab === "Insolvencia" && <Card><p>{empresa.etiquetas.includes("insolvencia") ? "Caso diseñado para la demostración de dificultad financiera." : "Esta ficha no es el caso principal de insolvencia."}</p><Link className="text-brand-blue underline" href="/insolvencia">Abrir módulo</Link><ul className="mt-2 text-sm">{expedientes.map((e) => <li key={e.id}><Link href={`/expedientes/${e.id}`}>{e.id}</Link> · {e.estado}</li>)}</ul></Card>}
+      {tab === "Insolvencia" && <Card><p>{empresa.etiquetas.includes("insolvencia") ? "Esta sociedad concentra las señales de dificultad financiera." : "No es el caso principal de insolvencia."}</p><Link className="text-brand-blue underline" href="/insolvencia">Abrir módulo</Link><ul className="mt-2 text-sm">{expedientes.map((e) => <li key={e.id}><Link href={`/expedientes/${e.id}`}>{e.id}</Link> · {e.estado}</li>)}</ul></Card>}
       {tab === "Documentos" && <Card>{docs.slice(0, 8).map((d) => <p key={d.id} className="text-sm">{d.nombre} · {d.clasificacion}</p>)}</Card>}
       {tab === "Relaciones" && (
         <Card>
@@ -108,7 +108,7 @@ export default function EmpresaPage() {
           {relaciones.map((r) => <p key={r.id} className="text-sm">{r.tipoRelacion}: {r.origen} → {r.destino} · {r.fuente} <Link className="text-brand-blue" href={`/empresas/${r.origen === id ? r.destino : r.origen}`}>abrir</Link></p>)}
         </Card>
       )}
-      {tab === "Alertas" && <Card>{alertas.map((a) => <p key={a.id} className="mb-2 text-sm"><strong>{a.reglaAplicada}</strong> · {a.descripcion}</p>)}<p className="text-xs">Evaluación en vivo: {evaluacion.length} reglas disparadas. Evaluación simulada; no constituye decisión administrativa ni conclusión jurídica.</p></Card>}
+      {tab === "Alertas" && <Card>{alertas.map((a) => <p key={a.id} className="mb-2 text-sm"><strong>{a.reglaAplicada}</strong> · {a.descripcion}</p>)}<p className="text-xs">Evaluación en vivo: {evaluacion.length} reglas disparadas. El resultado queda para revisión del equipo responsable.</p></Card>}
       {tab === "Trazabilidad" && (
         <Card>
           <div className="mb-2 flex gap-2">

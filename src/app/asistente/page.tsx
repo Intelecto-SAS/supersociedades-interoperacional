@@ -8,12 +8,12 @@ import { consultarAsistente, type AssistantAnswer } from "@/features/assistant/e
 import { useDemoStore } from "@/lib/storage/store";
 
 const EJEMPLOS = [
-  "¿Qué empresas ficticias presentan mayor riesgo financiero?",
-  "Resume la situación de Andina Ejemplo S.A.S.",
+  "¿Qué empresas presentan mayor riesgo financiero?",
+  "Resume la situación de Andina Alimentos S.A.S.",
   "¿Qué fuentes aportan datos al perfil empresarial?",
   "¿Qué alertas están pendientes?",
   "¿Qué documentos están relacionados con este expediente?",
-  "¿Qué integraciones fallaron durante la simulación?",
+  "¿Qué integraciones tienen incidencia?",
   "¿Cuáles son los sectores con más empresas?",
   "Genera un resumen gerencial de este caso.",
 ];
@@ -24,13 +24,13 @@ export default function AsistentePage() {
   const [answer, setAnswer] = useState<AssistantAnswer | null>(null);
   return (
     <div>
-      <PageHeader title="Asistente de análisis" description="Asistente demostrativo. Respuestas generadas a partir de datos ficticios. El proveedor externo de IA está desactivado." />
+      <PageHeader title="Asistente de análisis" description="Consulta las sociedades, alertas, fuentes y expedientes cargados en la plataforma." />
       <Card>
         <label className="text-sm" htmlFor="pregunta">Pregunta</label>
         <TextInput id="pregunta" value={q} onChange={(e) => setQ(e.target.value)} />
         <div className="mt-2 flex flex-wrap gap-2">{EJEMPLOS.map((e) => <button key={e} className="rounded-full bg-slate-100 px-2 py-1 text-xs" onClick={() => setQ(e)}>{e}</button>)}</div>
         <Button className="mt-3" onClick={() => setAnswer(consultarAsistente(q, escenario))}>Consultar</Button>
-        <p className="mt-2 text-xs">Proveedor externo: desactivado. Motor: reglas locales.</p>
+        <p className="mt-2 text-xs">Las respuestas citan registros de la plataforma.</p>
       </Card>
       {answer ? (
         <Card className="mt-4">
