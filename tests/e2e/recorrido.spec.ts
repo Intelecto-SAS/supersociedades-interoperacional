@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("recorrido principal de la demostración", async ({ page }) => {
   await page.goto("/dashboard");
-  await expect(page.getByRole("heading", { name: "Panel ejecutivo" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Mi espacio de trabajo" })).toBeVisible();
   await page.goto("/integraciones");
   await page.getByLabel("Buscar conector").fill("RUES");
   await expect(page.getByRole("link", { name: "RUES" })).toBeVisible();

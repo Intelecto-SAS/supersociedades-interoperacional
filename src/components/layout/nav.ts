@@ -1,33 +1,50 @@
-export const NAV = [
-  { grupo: "Dirección", items: [
-    { href: "/dashboard", label: "Panel ejecutivo" },
-    { href: "/demo", label: "Casos de uso" },
-    { href: "/informes", label: "Informes" },
+import {
+  Bell, Building2, FolderKanban, LayoutDashboard, Scale, Settings, Sparkles, Workflow,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+export type NavLink = { href: string; label: string };
+export type NavEntry = {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  href?: string;
+  items?: NavLink[];
+};
+
+export const NAV: NavEntry[] = [
+  { id: "inicio", label: "Inicio", icon: LayoutDashboard, href: "/dashboard" },
+  { id: "trabajo", label: "Mi trabajo", icon: FolderKanban, items: [
+    { href: "/expedientes", label: "Expedientes" },
+    { href: "/vigilancia/alertas", label: "Alertas" },
   ]},
-  { grupo: "Empresas", items: [
-    { href: "/empresas", label: "Sociedades" },
+  { id: "sociedades", label: "Sociedades", icon: Building2, href: "/empresas" },
+  { id: "analisis", label: "Análisis", icon: Scale, items: [
     { href: "/vigilancia", label: "Vigilancia" },
     { href: "/vigilancia/alertas", label: "Alertas" },
-    { href: "/insolvencia", label: "Insolvencia" },
     { href: "/finanzas", label: "Finanzas" },
-  ]},
-  { grupo: "Gestión", items: [
+    { href: "/insolvencia", label: "Insolvencia" },
     { href: "/contratacion", label: "Contratación" },
-    { href: "/expedientes", label: "Expedientes" },
-    { href: "/documentos", label: "Documentos" },
-    { href: "/radicacion", label: "Radicación" },
     { href: "/territorio", label: "Territorio" },
   ]},
-  { grupo: "Plataforma", items: [
-    { href: "/integraciones", label: "Integraciones" },
+  { id: "tramites", label: "Trámites", icon: Bell, items: [
+    { href: "/radicacion", label: "Radicación" },
+    { href: "/documentos", label: "Documentos" },
+    { href: "/informes", label: "Informes" },
+  ]},
+  { id: "integraciones", label: "Integraciones", icon: Workflow, items: [
+    { href: "/integraciones", label: "Catálogo" },
     { href: "/flujos", label: "Flujos" },
     { href: "/observabilidad", label: "Operación" },
     { href: "/gobierno-datos", label: "Gobierno de datos" },
     { href: "/auditoria", label: "Auditoría" },
-    { href: "/asistente", label: "Asistente" },
   ]},
-  { grupo: "Cuenta", items: [
-    { href: "/configuracion", label: "Preferencias" },
+  { id: "herramientas", label: "Herramientas", icon: Sparkles, items: [
+    { href: "/asistente", label: "Asistente" },
+    { href: "/demo", label: "Casos de uso" },
     { href: "/acerca-de", label: "Acerca de" },
   ]},
+  { id: "preferencias", label: "Preferencias", icon: Settings, href: "/configuracion" },
 ];
+
+export const NAV_FLAT: NavLink[] = NAV.flatMap((entry) => entry.href ? [{ href: entry.href, label: entry.label }] : (entry.items ?? []));

@@ -29,8 +29,8 @@ export default function GobiernoPage() {
           <li>Evidencias conservadas. Calidad {caso.consolidado.evidence.dataQuality}.</li>
         </ol>
         <div className="mt-3 grid gap-2 md:grid-cols-2">
-          <pre className="overflow-auto rounded bg-slate-50 p-2 text-xs">{JSON.stringify(caso.registrosOriginales.map((r) => r.original), null, 2)}</pre>
-          <pre className="overflow-auto rounded bg-slate-50 p-2 text-xs">{JSON.stringify(caso.consolidado.attributes, null, 2)}</pre>
+          <div><p className="mb-1 text-xs font-semibold">Valor original por fuente</p><pre className="overflow-auto rounded bg-slate-50 p-2 text-xs">{JSON.stringify(caso.registrosOriginales.map((r) => r.original), null, 2)}</pre></div>
+          <div><p className="mb-1 text-xs font-semibold">Resultado consolidado</p><pre className="overflow-auto rounded bg-slate-50 p-2 text-xs">{JSON.stringify(caso.consolidado.attributes, null, 2)}</pre></div>
         </div>
       </Card>
     </div>

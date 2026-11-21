@@ -32,7 +32,7 @@ function EmpresasInner() {
   return (
     <div>
       <PageHeader title="Sociedades" description="Doscientas sociedades con el mismo identificador en finanzas, contratos, procesos, expedientes y alertas." />
-      <div className="mb-3 grid gap-2 md:grid-cols-3">
+      <div className="mb-3 grid gap-2 md:grid-cols-4">
         <TextInput aria-label="Filtrar empresas" placeholder="Nombre o DEMO-EMP" value={q} onChange={(e) => setQ(e.target.value)} />
         <select aria-label="Sector" className="rounded-md border px-2" value={sector} onChange={(e) => setSector(e.target.value)}>
           <option value="">Todos los sectores</option>
@@ -42,6 +42,7 @@ function EmpresasInner() {
           <option value="">Todo riesgo</option>
           <option value="baja">baja</option><option value="media">media</option><option value="alta">alta</option><option value="critica">crítica</option>
         </select>
+        <button className="rounded-md border border-surface-line bg-white px-3 text-sm font-semibold" onClick={() => { setQ(""); setSector(""); setRiesgo(""); }}>Limpiar filtros</button>
       </div>
       <DataTable columns={columns} data={rows} />
     </div>
