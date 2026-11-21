@@ -20,7 +20,7 @@ export default function ExpedienteDetalle() {
   const acts = data.actuaciones.filter((a) => a.expedienteId === exp.id);
   return (
     <div>
-      <PageHeader crumbs={[{ href: "/expedientes", label: "Expedientes" }, { href: `/expedientes/${exp.id}`, label: exp.id }]} title={exp.tipo} description={`${exp.id} · ${exp.empresaId} · ${estado || exp.estado}`} />
+      <PageHeader crumbs={[{ href: "/expedientes", label: "Expedientes" }, { href: `/expedientes/${exp.id}`, label: exp.id }]} title={exp.tipo} description={`${exp.id} · ${estado || exp.estado}`} actions={<a className="rounded-md bg-brand-burgundy px-3 py-2 text-sm font-semibold text-white" href={`/empresas/${exp.empresaId}`}>Abrir sociedad</a>} />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <p className="text-sm">{exp.resumen}</p>

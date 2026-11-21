@@ -35,7 +35,7 @@ export default function AlertasPage() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <p className="font-semibold">{a.descripcion}</p>
-                <p className="text-xs text-slate-500">{a.id} · {a.reglaAplicada} · <Link className="text-brand-blue" href={`/empresas/${a.empresaId}`}>{a.empresaId}</Link></p>
+                <p className="text-xs text-slate-500">{a.id} · {a.reglaAplicada} · <Link className="text-brand-blue" href={`/empresas/${a.empresaId}?alerta=${a.id}`}>{a.empresaId}</Link></p>
               </div>
               <Badge tone={a.severidad === "critica" ? "risk" : "warn"}>{a.estado}</Badge>
             </div>

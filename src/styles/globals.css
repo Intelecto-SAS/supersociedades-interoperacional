@@ -27,6 +27,12 @@ body {
   font-family: "Nunito Sans", Verdana, Arial, sans-serif;
 }
 a { color: inherit; }
+@media (min-width: 768px) {
+  html[data-nav="pinned"] .workspace { padding-left: 320px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 :focus-visible {
   outline: 3px solid var(--flag-yellow);
   outline-offset: 2px;

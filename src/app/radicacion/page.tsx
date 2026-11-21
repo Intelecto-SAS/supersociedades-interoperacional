@@ -27,7 +27,7 @@ export default function RadicacionPage() {
   };
   return (
     <div>
-      <PageHeader title="Radicación asistida" description="Lectura del documento, clasificación, identificación de la sociedad y creación del radicado." />
+      <PageHeader title="Radicación asistida" description="Cinco momentos: documento, sociedad y trámite, lectura del texto en el navegador, validación y radicado. El texto no proviene de un servicio de reconocimiento." />
       <ol className="mb-4 flex flex-wrap gap-2 text-xs">{PASOS.map((p, i) => <li key={p} className={`rounded-full px-2 py-1 ${i === paso ? "bg-brand-burgundy text-white" : "bg-white"}`}>{i + 1}. {p}</li>)}</ol>
       <Card>
         {paso === 0 && <label className="text-sm">Documento<select className="mt-1 w-full rounded border px-2 py-1" value={docId} onChange={(e) => { setDocId(e.target.value); setTexto(docs.find((d) => d.id === e.target.value)?.contenidoFicticio ?? ""); }}>{docs.map((d) => <option key={d.id} value={d.id}>{d.nombre}</option>)}</select></label>}
