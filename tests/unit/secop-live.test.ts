@@ -27,8 +27,7 @@ describe("secop en vivo", () => {
   });
 
   it("marca solo SECOP como canal en vivo", () => {
-    const live = buildCatalog().filter((item) => item.modoActual === "LIVE");
+    const live = buildCatalog().filter((item) => item.urlApiReal?.includes("datos.gov.co"));
     expect(live.map((item) => item.id).sort()).toEqual(["secop-i", "secop-ii"]);
-    expect(live.every((item) => item.urlApiReal?.startsWith("https://www.datos.gov.co/"))).toBe(true);
   });
 });

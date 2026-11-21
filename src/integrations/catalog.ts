@@ -191,6 +191,19 @@ export function buildCatalog(): ConnectorDefinition[] {
       item.metodoAutenticacionReal = "app_token_opcional";
       item.descripcion = "Contratos electrónicos de SECOP II publicados en Datos Abiertos Colombia. La consulta en vivo no se cruza con las sociedades de la plataforma.";
     }
+    const croma: Record<string, string> = {
+      rues: "Registro mercantil en vivo por nombre o NIT. No se cruza con las sociedades de la plataforma.",
+      "rama-procesos": "Procesos de personas jurídicas por nombre y radicado. No consulta documentos de personas naturales.",
+      sirem: "Sociedades, estados financieros e insolvencia publicados por Supersociedades.",
+    };
+    if (croma[item.id]) {
+      item.modoActual = "LIVE";
+      item.tipoAccesoReal = "D";
+      item.urlApiReal = "https://api.croma.run";
+      item.documentacionOficial = "https://docs.usecroma.com/es/guides/colombia";
+      item.metodoAutenticacionReal = "app_token_opcional";
+      item.descripcion = croma[item.id]!;
+    }
     if (item.id === "secop-i") {
       item.modoActual = "LIVE";
       item.tipoAccesoReal = "C";

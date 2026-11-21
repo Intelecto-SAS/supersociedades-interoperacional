@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { PageHeader } from "@/components/shared/page";
+import { CromaLiveSearch } from "@/components/integrations/croma-live";
 import { SecopLiveSearch } from "@/components/integrations/secop-live";
 import { Badge, Button, Card, Empty } from "@/components/ui/primitives";
 import { getAdapter } from "@/integrations/registry";
@@ -30,6 +31,7 @@ export default function IntegracionDetalle() {
       <PageHeader crumbs={[{ href: "/integraciones", label: "Integraciones" }, { href: `/integraciones/${def.id}`, label: def.nombre }]} title={def.nombre} description={def.descripcion} actions={<Button onClick={probar}>Probar conexión</Button>} />
       <div className="mb-3 flex gap-2"><Badge tone="info">{def.categoria}</Badge><Badge tone={def.modoActual === "LIVE" ? "ok" : "neutral"}>{def.modoActual === "LIVE" ? "En vivo" : "Catálogo"}</Badge><Badge tone={def.estadoSimulado === "operativo" ? "ok" : "risk"}>{def.estadoSimulado}</Badge></div>
       {def.id === "secop-ii" || def.id === "secop-i" ? <div className="mb-4"><SecopLiveSearch initialDataset={def.id === "secop-i" ? "procesos" : "contratos"} /></div> : null}
+      {def.id === "rues" || def.id === "rama-procesos" || def.id === "sirem" ? <div className="mb-4"><CromaLiveSearch connectorId={def.id} /></div> : null}
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <h2 className="font-semibold">Ficha</h2>

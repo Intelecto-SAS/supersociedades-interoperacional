@@ -1,6 +1,6 @@
 # Integraciones simuladas
 
-El catálogo tiene 72 conectores. SECOP I y SECOP II están en modo `LIVE`: leen Datos Abiertos Colombia (`www.datos.gov.co`) por `/api/live/secop`. El acceso real de esas dos fuentes es `C`. El token `DATOS_GOV_APP_TOKEN` es opcional y no va en el repositorio. El resto permanece en `MOCK`, con acceso `POR_VERIFICAR` y URL real nula.
+El catálogo tiene 72 conectores. En modo `LIVE` están SECOP I y SECOP II (Datos Abiertos, acceso `C`) y RUES, Rama Judicial y SIREM vía Croma (`https://api.croma.run`, acceso `D`). La clave `CROMA_API_KEY` no va en el repositorio. Esas consultas no cruzan con las sociedades generadas y no incluyen antecedentes de personas. El resto permanece en `MOCK`.
 
 ## Diferencia entre MOCK y REAL
 
