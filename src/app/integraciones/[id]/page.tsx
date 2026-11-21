@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { PageHeader } from "@/components/shared/page";
+import { SecopLiveSearch } from "@/components/integrations/secop-live";
 import { Badge, Button, Card, Empty } from "@/components/ui/primitives";
 import { getAdapter } from "@/integrations/registry";
 import { isError } from "@/integrations/types";
@@ -27,7 +28,8 @@ export default function IntegracionDetalle() {
   return (
     <div>
       <PageHeader crumbs={[{ href: "/integraciones", label: "Integraciones" }, { href: `/integraciones/${def.id}`, label: def.nombre }]} title={def.nombre} description={def.descripcion} actions={<Button onClick={probar}>Probar conexión</Button>} />
-      <div className="mb-3 flex gap-2"><Badge tone="info">{def.categoria}</Badge><Badge tone={def.estadoSimulado === "operativo" ? "ok" : "risk"}>{def.estadoSimulado}</Badge></div>
+      <div className="mb-3 flex gap-2"><Badge tone="info">{def.categoria}</Badge><Badge tone={def.modoActual === "LIVE" ? "ok" : "neutral"}>{def.modoActual === "LIVE" ? "En vivo" : "Catálogo"}</Badge><Badge tone={def.estadoSimulado === "operativo" ? "ok" : "risk"}>{def.estadoSimulado}</Badge></div>
+      {def.id === "secop-ii" || def.id === "secop-i" ? <div className="mb-4"><SecopLiveSearch initialDataset={def.id === "secop-i" ? "procesos" : "contratos"} /></div> : null}
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <h2 className="font-semibold">Ficha</h2>
@@ -39,6 +41,8 @@ export default function IntegracionDetalle() {
             <div>Latencia: {def.tiempoRespuestaMs} ms</div>
             <div>Calidad: {def.calidadDatos}</div>
             <div>Última sincronización: {def.ultimaSincronizacionFicticia}</div>
+            {def.urlApiReal ? <div>Endpoint: {def.urlApiReal}</div> : null}
+            {def.documentacionOficial ? <div>Documentación: {def.documentacionOficial}</div> : null}
           </dl>
         </Card>
         <Card>

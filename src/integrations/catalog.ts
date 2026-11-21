@@ -183,6 +183,22 @@ export function buildCatalog(): ConnectorDefinition[] {
     item.entidadProveedora = item.entidadProveedora.replace(/\s*\([^)]*\)/g, "");
     item.datosQueAporta = item.datosQueAporta.map((dato) => dato.replace(/simulad[oa]s?/gi, "").replace(/fictici[oa]s?/gi, "").replace(/demo/gi, "").replace(/\s+/g, " ").trim());
     item.descripcion = `Canal de ${item.categoria.toLowerCase()} para la vista empresarial. Aporta ${item.datosQueAporta.join(", ")}.`;
+    if (item.id === "secop-ii") {
+      item.modoActual = "LIVE";
+      item.tipoAccesoReal = "C";
+      item.urlApiReal = "https://www.datos.gov.co/resource/jbjy-vk9h.json";
+      item.documentacionOficial = "https://www.datos.gov.co/resource/jbjy-vk9h";
+      item.metodoAutenticacionReal = "app_token_opcional";
+      item.descripcion = "Contratos electrónicos de SECOP II publicados en Datos Abiertos Colombia. La consulta en vivo no se cruza con las sociedades de la plataforma.";
+    }
+    if (item.id === "secop-i") {
+      item.modoActual = "LIVE";
+      item.tipoAccesoReal = "C";
+      item.urlApiReal = "https://www.datos.gov.co/resource/p6dx-8zbt.json";
+      item.documentacionOficial = "https://www.datos.gov.co/resource/p6dx-8zbt";
+      item.metodoAutenticacionReal = "app_token_opcional";
+      item.descripcion = "Procesos de SECOP II publicados en Datos Abiertos Colombia. La consulta en vivo no se cruza con las sociedades de la plataforma.";
+    }
     return item;
   });
 }

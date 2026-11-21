@@ -24,9 +24,9 @@ export type ConnectorDefinition = {
   sistemasConsumidores: string[];
   tipoAccesoReal: ConnectorAccessLevel;
   documentacionOficial: string | null;
-  urlApiReal: null;
-  metodoAutenticacionReal: "no_verificado";
-  modoActual: "MOCK";
+  urlApiReal: string | null;
+  metodoAutenticacionReal: "no_verificado" | "app_token_opcional";
+  modoActual: "MOCK" | "LIVE";
   estadoSimulado: "operativo" | "degradado" | "caido" | "incompleto";
   ultimaSincronizacionFicticia: string;
   tiempoRespuestaMs: number;
@@ -40,8 +40,8 @@ export type ConnectorDefinition = {
 
 export type ConnectorHealth = {
   sourceId: string;
-  modo: "MOCK";
-  conexionesRealesActivas: 0;
+  modo: "MOCK" | "LIVE";
+  conexionesRealesActivas: number;
   estado: ConnectorDefinition["estadoSimulado"];
   latenciaMs: number;
   disponible: boolean;
@@ -58,7 +58,7 @@ export type SourceEvidence = {
   sourceId: string;
   sourceRecordId: string;
   retrievedAt: string;
-  simulated: true;
+  simulated: boolean;
   confidence: number;
   dataQuality: number;
   schemaVersion: string;
@@ -81,7 +81,7 @@ export type ConnectorSample = {
 
 export type SyncResult = {
   sourceId: string;
-  simulated: true;
+  simulated: boolean;
   persistedOnServer: false;
   records: number;
   durationMs: number;

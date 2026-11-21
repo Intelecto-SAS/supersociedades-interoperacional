@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/shared/page";
 import { SimpleBars } from "@/components/charts/bars";
+import { SecopLiveSearch } from "@/components/integrations/secop-live";
 import { Card, TextInput } from "@/components/ui/primitives";
 import { formatCOP } from "@/lib/formatting/format";
 import { useView } from "@/lib/storage/store";
@@ -28,7 +29,8 @@ export default function ContratacionPage() {
   const top = [...byEmpresa.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
   return (
     <div>
-      <PageHeader title="Contratación y relaciones" description="Contratos, proponentes y vínculos entre sociedades, con las alertas de concentración y de calidad." />
+      <PageHeader title="Contratación y relaciones" description="Contratos de la plataforma y, aparte, la consulta en vivo de SECOP publicada en Datos Abiertos." />
+      <div className="mb-4"><SecopLiveSearch /></div>
       <div className="mb-3 grid gap-2 md:grid-cols-3">
         <TextInput aria-label="Empresa" placeholder="DEMO-EMP-0004" value={empresa} onChange={(e) => setEmpresa(e.target.value)} />
         <select aria-label="Entidad" className="rounded border px-2" value={entidad} onChange={(e) => setEntidad(e.target.value)}><option value="">Entidad contratante</option>{[...new Set(data.contratos.map((c) => c.entidadContratanteFicticia))].map((e) => <option key={e}>{e}</option>)}</select>
