@@ -13,22 +13,29 @@ export default function IntegracionesPage() {
   const data = useView();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("");
+  const [canal, setCanal] = useState("");
   const cats = [...new Set(data.conectores.map((c) => c.categoria))];
-  const rows = useMemo(() => data.conectores.filter((c) => (!q || `${c.nombre} ${c.entidadProveedora} ${c.id}`.toLowerCase().includes(q.toLowerCase())) && (!cat || c.categoria === cat)), [data.conectores, q, cat]);
+  const enVivo = data.conectores.filter((c) => c.modoActual === "LIVE").length;
+  const rows = useMemo(() => data.conectores.filter((c) => (!q || `${c.nombre} ${c.entidadProveedora} ${c.id}`.toLowerCase().includes(q.toLowerCase())) && (!cat || c.categoria === cat) && (!canal || c.modoActual === canal)).sort((a, b) => Number(b.modoActual === "LIVE") - Number(a.modoActual === "LIVE")), [data.conectores, q, cat, canal]);
   const columns: ColumnDef<ConnectorDefinition>[] = [
     { accessorKey: "nombre", header: "Conector", cell: ({ row }) => <Link className="font-semibold text-brand-blue" href={`/integraciones/${row.original.id}`}>{row.original.nombre}</Link> },
+    { id: "canal", header: "Canal", cell: ({ row }) => row.original.modoActual === "LIVE" ? <Badge tone="ok">Real</Badge> : <Badge tone="warn">Simulada</Badge> },
     { accessorKey: "categoria", header: "Categoría" },
-    { accessorKey: "adaptador", header: "Adaptador" },
     { accessorKey: "entidadProveedora", header: "Entidad" },
     { accessorKey: "estadoSimulado", header: "Estado", cell: ({ getValue }) => <Badge tone={getValue() === "operativo" ? "ok" : getValue() === "caido" ? "risk" : "warn"}>{String(getValue())}</Badge> },
   ];
   return (
     <div>
-      <PageHeader title="Catálogo de integraciones" description={`${data.conectores.length} fuentes disponibles para la vista empresarial, el riesgo y los expedientes.`} />
-      <div className="mb-3 grid gap-2 md:grid-cols-2">
+      <PageHeader title="Catálogo de integraciones" description={`${enVivo} fuentes consultan un registro real. ${data.conectores.length - enVivo} siguen con datos de la plataforma.`} />
+      <div className="mb-3 grid gap-2 md:grid-cols-3">
         <TextInput aria-label="Buscar conector" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Nombre o entidad" />
+        <select aria-label="Canal" className="rounded-md border px-2" value={canal} onChange={(e) => setCanal(e.target.value)}>
+          <option value="">Canal: todos</option>
+          <option value="LIVE">Reales</option>
+          <option value="MOCK">Simuladas</option>
+        </select>
         <select aria-label="Categoría" className="rounded-md border px-2" value={cat} onChange={(e) => setCat(e.target.value)}>
-          <option value="">Todas</option>
+          <option value="">Todas las categorías</option>
           {cats.map((c) => <option key={c}>{c}</option>)}
         </select>
       </div>
