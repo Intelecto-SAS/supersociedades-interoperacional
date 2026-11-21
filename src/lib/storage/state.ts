@@ -39,6 +39,6 @@ export const initialDemoState: DemoState = {
 
 export function parseDemoState(input: unknown): DemoState {
   const parsed = demoStateSchema.safeParse(input);
-  if (!parsed.success) throw new Error("El archivo no tiene un estado de demostración válido.");
+  if (!parsed.success) throw new Error("El archivo no tiene un estado válido.");
   return parsed.data;
 }

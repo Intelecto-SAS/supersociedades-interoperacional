@@ -16,7 +16,7 @@ export default function TerritorioPage() {
   const ficha = data.territorio.find((t) => t.departamento === depto);
   return (
     <div>
-      <PageHeader title="Analítica territorial" description="Grilla departamental construida con los nombres de los departamentos del universo ficticio. No usa un mapa externo ni geometría oficial." actions={<Button variant="secondary" onClick={() => { const blob = new Blob([toCsv(empresas.map((e) => ({ id: e.id, departamento: e.departamento, sector: e.sector, riesgo: e.nivelRiesgo })))], { type: "text/csv" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "territorio-demo.csv"; a.click(); }}>Exportar</Button>} />
+      <PageHeader title="Analítica territorial" description="Sociedades, sectores y riesgo por departamento." actions={<Button variant="secondary" onClick={() => { const blob = new Blob([toCsv(empresas.map((e) => ({ id: e.id, departamento: e.departamento, sector: e.sector, riesgo: e.nivelRiesgo })))], { type: "text/csv" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "territorio.csv"; a.click(); }}>Exportar</Button>} />
       <div className="mb-3 flex gap-2">
         <select aria-label="Departamento" className="rounded border px-2 py-1" value={depto} onChange={(e) => setDepto(e.target.value)}><option value="">Todos</option>{data.territorio.map((t) => <option key={t.departamento}>{t.departamento}</option>)}</select>
         <select aria-label="Sector territorial" className="rounded border px-2 py-1" value={sector} onChange={(e) => setSector(e.target.value)}><option value="">Sector</option>{[...new Set(data.empresas.map((e) => e.sector))].map((s) => <option key={s}>{s}</option>)}</select>
@@ -29,8 +29,8 @@ export default function TerritorioPage() {
         <Card>
           <h2 className="font-semibold">Lectura</h2>
           <p className="text-sm">{empresas.length} empresas en el filtro. {riesgos} con riesgo alto o crítico.</p>
-          {ficha ? <p className="mt-2 text-sm">Índice de actividad ficticio de {ficha.departamento}: {ficha.indiceActividadFicticio}. Sector principal: {ficha.sectorPrincipal}. Riesgo alto: {ficha.riesgoAlto}.</p> : <p className="mt-2 text-sm">Seleccione un departamento para comparar el índice ficticio.</p>}
-          <p className="mt-2 text-xs">Fuentes simuladas: DANE y DNP del catálogo. Las cifras no provienen de esas entidades.</p>
+          {ficha ? <p className="mt-2 text-sm">Índice de actividad de {ficha.departamento}: {ficha.indiceActividadFicticio}. Sector principal: {ficha.sectorPrincipal}. Riesgo alto: {ficha.riesgoAlto}.</p> : <p className="mt-2 text-sm">Seleccione un departamento para ver el índice.</p>}
+          <p className="mt-2 text-xs">Fuentes: DANE y DNP.</p>
         </Card>
       </div>
     </div>

@@ -24,7 +24,7 @@ export function FlowCanvas({ flow }: { flow: FlowDefinition }) {
   const ejecutar = (forzarError = false) => {
     const result = ejecutarFlujo(flow, { forzarError });
     setRun(result);
-    auditar(forzarError ? "flujo_error_simulado" : "flujo_ejecutado", flow.id);
+    auditar(forzarError ? "flujo_con_incidencia" : "flujo_ejecutado", flow.id);
   };
   return (
     <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
@@ -37,7 +37,7 @@ export function FlowCanvas({ flow }: { flow: FlowDefinition }) {
       <div className="space-y-3">
         <div className="flex flex-wrap gap-2">
           <Button onClick={() => ejecutar(false)}>Ejecutar</Button>
-          <Button variant="secondary" onClick={() => ejecutar(true)}>Simular error</Button>
+          <Button variant="secondary" onClick={() => ejecutar(true)}>Forzar incidencia</Button>
           <Button variant="secondary" onClick={() => ejecutar(false)}>Reintentar</Button>
           <Button variant="secondary" onClick={() => setCustom("guardado")}>Guardar cambios locales</Button>
           <Button variant="secondary" onClick={() => setCustom(null)}>Restaurar flujo</Button>

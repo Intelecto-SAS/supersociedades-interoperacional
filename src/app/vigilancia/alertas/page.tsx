@@ -19,11 +19,11 @@ export default function AlertasPage() {
     const blob = new Blob([toCsv(rows.map((a) => ({ id: a.id, empresa: a.empresaId, regla: a.reglaAplicada, estado: a.estado })))], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url; a.download = "alertas-demo.csv"; a.click();
+    a.href = url; a.download = "alertas.csv"; a.click();
   };
   return (
     <div>
-      <PageHeader title="Alertas" description="Puede asignar un responsable de demostración, cambiar el estado y abrir un expediente. El cambio vive en este navegador." actions={<Button variant="secondary" onClick={exportar}>Exportar CSV</Button>} />
+      <PageHeader title="Alertas" description="Asigne un responsable, cambie el estado o abra un expediente a partir de la señal." actions={<Button variant="secondary" onClick={exportar}>Exportar CSV</Button>} />
       <div className="mb-3 flex gap-2">
         <select aria-label="Estado" className="rounded border px-2 py-1" value={estado} onChange={(e) => setEstado(e.target.value)}><option value="">Estado</option><option value="abierta">abierta</option><option value="en_revision">en revisión</option><option value="cerrada">cerrada</option></select>
         <select aria-label="Severidad" className="rounded border px-2 py-1" value={sev} onChange={(e) => setSev(e.target.value)}><option value="">Severidad</option><option>baja</option><option>media</option><option>alta</option><option>critica</option></select>
@@ -40,9 +40,9 @@ export default function AlertasPage() {
               <Badge tone={a.severidad === "critica" ? "risk" : "warn"}>{a.estado}</Badge>
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
-              <Button variant="secondary" onClick={() => { update(a.id, { estado: "en_revision", responsableDemo: "Equipo demo supervisión" }); setMsg(`Alerta ${a.id} asignada.`); }}>Asignar y revisar</Button>
+              <Button variant="secondary" onClick={() => { update(a.id, { estado: "en_revision", responsableDemo: "Equipo de supervisión" }); setMsg(`Alerta ${a.id} asignada.`); }}>Asignar y revisar</Button>
               <Button variant="secondary" onClick={() => { update(a.id, { estado: "cerrada", responsableDemo: a.responsableDemo }); setMsg(`Alerta ${a.id} cerrada en la demo.`); }}>Cerrar</Button>
-              <Button variant="secondary" onClick={() => { addExp({ id: `DEMO-EXP-${a.id}`, empresaId: a.empresaId, tipo: "Alerta", estado: "abierto", responsableDemo: "Equipo demo", resumen: a.descripcion, fechaApertura: "2025-10-29" }); setMsg("Expediente creado desde la alerta."); }}>Crear expediente</Button>
+              <Button variant="secondary" onClick={() => { addExp({ id: `DEMO-EXP-${a.id}`, empresaId: a.empresaId, tipo: "Alerta", estado: "abierto", responsableDemo: "Equipo de supervisión", resumen: a.descripcion, fechaApertura: "2025-10-29" }); setMsg("Expediente creado desde la alerta."); }}>Crear expediente</Button>
             </div>
           </Card>
         ))}

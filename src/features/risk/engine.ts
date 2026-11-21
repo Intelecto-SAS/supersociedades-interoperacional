@@ -21,7 +21,7 @@ export const REGLAS: Regla[] = [
   { id: "R-PROCESOS", nombre: "Procesos jurídicos asociados", descripcion: "Existe al menos un proceso activo.", condicion: "procesos activos >= 1", variables: ["procesos"], severidad: "media" },
   { id: "R-REPORTE-TARDIO", nombre: "Retraso en reporte", descripcion: "El corte del último ejercicio no es 31 de diciembre.", condicion: "fechaCorte no termina en 12-31", variables: ["fechaCorte"], severidad: "baja" },
   { id: "R-CONCENTRACION", nombre: "Concentración de contratos", descripcion: "60% o más del valor contractual está en una sola entidad.", condicion: "max(entidad) / total >= 0.6 y contratos >= 3", variables: ["valorCOP"], severidad: "alta" },
-  { id: "R-RELACIONES", nombre: "Relaciones que requieren revisión", descripcion: "La empresa tiene tres o más vínculos simulados.", condicion: "relaciones >= 3", variables: ["relaciones"], severidad: "baja" },
+  { id: "R-RELACIONES", nombre: "Relaciones que requieren revisión", descripcion: "La empresa tiene tres o más vínculos.", condicion: "relaciones >= 3", variables: ["relaciones"], severidad: "baja" },
 ];
 
 function latest(reportes: ReporteFinanciero[]) {
@@ -70,12 +70,12 @@ export function evaluarEmpresa(dataset: Pick<Dataset, "empresas" | "reportes" | 
     for (const c of contratos) by.set(c.entidadContratanteFicticia, (by.get(c.entidadContratanteFicticia) ?? 0) + c.valorCOP);
     const max = Math.max(...by.values());
     if (total > 0 && max / total >= 0.6) {
-      out.push({ ...base, id: `${empresaId}-R-CONCENTRACION`, tipo: "Contratación", severidad: "alta", descripcion: "Concentración contractual en una entidad ficticia.", reglaAplicada: "R-CONCENTRACION", evidencias: contratos.slice(0, 3).map((c) => c.id) });
+      out.push({ ...base, id: `${empresaId}-R-CONCENTRACION`, tipo: "Contratación", severidad: "alta", descripcion: "Concentración contractual en una sola entidad.", reglaAplicada: "R-CONCENTRACION", evidencias: contratos.slice(0, 3).map((c) => c.id) });
     }
   }
   const relaciones = dataset.relaciones.filter((r) => r.origen === empresaId || r.destino === empresaId).length;
   if (relaciones >= 3) {
-    out.push({ ...base, id: `${empresaId}-R-RELACIONES`, tipo: "Relaciones", severidad: "baja", descripcion: "Varios vínculos empresariales simulados requieren lectura conjunta.", reglaAplicada: "R-RELACIONES", evidencias: [empresaId] });
+    out.push({ ...base, id: `${empresaId}-R-RELACIONES`, tipo: "Relaciones", severidad: "baja", descripcion: "Varios vínculos empresariales requieren lectura conjunta.", reglaAplicada: "R-RELACIONES", evidencias: [empresaId] });
   }
   return out;
 }

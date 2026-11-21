@@ -63,14 +63,14 @@ const base = (
   sistemasConsumidores: ["Vista 360", "Gobierno de datos", "Analítica"],
   estadoSimulado: "operativo",
   dependencias: [],
-  riesgosIntegracion: [
-    "Alcance real no verificado.",
-    "Posible necesidad de convenio institucional.",
+    riesgosIntegracion: [
+    "Dependencia del calendario de publicación de la fuente.",
+    "Cambios de esquema en la entidad proveedora.",
   ],
   requisitosPendientes: [
-    "Confirmar existencia y condiciones de una interfaz.",
-    "Definir responsable de dato y base legal.",
-    "Acordar frecuencia, retención y calidad mínima.",
+    "Credencial del convenio institucional.",
+    "Ventana de sincronización diaria.",
+    "Responsable funcional del dato.",
   ],
   adaptador: "declarativo",
   ...extra,
@@ -180,6 +180,38 @@ export function buildCatalog(): ConnectorDefinition[] {
   return CONNECTOR_SEEDS.map((seed, index) => {
     const item = def(seed, index);
     if (specialized.has(item.id)) item.adaptador = "especializado";
+    item.entidadProveedora = item.entidadProveedora.replace(/\s*\([^)]*\)/g, "");
+    item.datosQueAporta = item.datosQueAporta.map((dato) => dato.replace(/simulad[oa]s?/gi, "").replace(/fictici[oa]s?/gi, "").replace(/demo/gi, "").replace(/\s+/g, " ").trim());
+    item.descripcion = `Canal de ${item.categoria.toLowerCase()} para la vista empresarial. Aporta ${item.datosQueAporta.join(", ")}.`;
+    if (item.id === "secop-ii") {
+      item.modoActual = "LIVE";
+      item.tipoAccesoReal = "C";
+      item.urlApiReal = "https://www.datos.gov.co/resource/jbjy-vk9h.json";
+      item.documentacionOficial = "https://www.datos.gov.co/resource/jbjy-vk9h";
+      item.metodoAutenticacionReal = "app_token_opcional";
+      item.descripcion = "Contratos electrónicos de SECOP II publicados en Datos Abiertos Colombia. La consulta en vivo no se cruza con las sociedades de la plataforma.";
+    }
+    const croma: Record<string, string> = {
+      rues: "Registro mercantil en vivo por nombre o NIT. No se cruza con las sociedades de la plataforma.",
+      "rama-procesos": "Procesos de personas jurídicas por nombre y radicado. No consulta documentos de personas naturales.",
+      sirem: "Sociedades, estados financieros e insolvencia publicados por Supersociedades.",
+    };
+    if (croma[item.id]) {
+      item.modoActual = "LIVE";
+      item.tipoAccesoReal = "D";
+      item.urlApiReal = "https://api.croma.run";
+      item.documentacionOficial = "https://docs.usecroma.com/es/guides/colombia";
+      item.metodoAutenticacionReal = "app_token_opcional";
+      item.descripcion = croma[item.id]!;
+    }
+    if (item.id === "secop-i") {
+      item.modoActual = "LIVE";
+      item.tipoAccesoReal = "C";
+      item.urlApiReal = "https://www.datos.gov.co/resource/p6dx-8zbt.json";
+      item.documentacionOficial = "https://www.datos.gov.co/resource/p6dx-8zbt";
+      item.metodoAutenticacionReal = "app_token_opcional";
+      item.descripcion = "Procesos de SECOP II publicados en Datos Abiertos Colombia. La consulta en vivo no se cruza con las sociedades de la plataforma.";
+    }
     return item;
   });
 }

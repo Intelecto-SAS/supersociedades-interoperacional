@@ -13,12 +13,12 @@ export type AssistantAnswer = {
 export function consultarAsistente(pregunta: string, escenario: EscenarioId = "normal"): AssistantAnswer {
   const data = applyScenario(getDataset(), escenario);
   const q = pregunta.toLowerCase();
-  const aviso = "Asistente demostrativo. Respuestas generadas a partir de datos ficticios.";
+  const aviso = "";
 
   const noInfo = (texto: string): AssistantAnswer => ({
     texto: `${texto} ${aviso}`,
     datos: [],
-    interpretacion: "No hay información suficiente en el laboratorio para afirmar algo más.",
+    interpretacion: "No hay información suficiente para afirmar algo más.",
     evidencias: [],
     suficiente: false,
   });
@@ -29,7 +29,7 @@ export function consultarAsistente(pregunta: string, escenario: EscenarioId = "n
     return {
       texto: `${e.razonSocial} (${e.id}) es el caso de referencia. Sector ${e.sector}, ${e.municipio}. Riesgo ${e.nivelRiesgo}. ${aviso}`,
       datos: fins.map((f) => `${f.periodo}: ingresos ${formatCOP(f.ingresos)}, fuente ${f.fuente}.`),
-      interpretacion: "La serie no muestra la caída diseñada para el caso de insolvencia. Es una lectura del laboratorio, no un concepto.",
+      interpretacion: "La serie se mantiene estable frente al caso de dificultad financiera.",
       evidencias: [{ etiqueta: "Abrir ficha", href: `/empresas/${e.id}` }],
       suficiente: true,
     };
@@ -38,7 +38,7 @@ export function consultarAsistente(pregunta: string, escenario: EscenarioId = "n
   if (q.includes("riesgo") || q.includes("financier")) {
     const top = data.empresas.filter((e) => e.nivelRiesgo === "critica" || e.nivelRiesgo === "alta").slice(0, 5);
     return {
-      texto: `Empresas ficticias con riesgo alto o crítico en el escenario actual: ${top.map((e) => e.razonSocial).join(", ")}. ${aviso}`,
+      texto: `Sociedades con riesgo alto o crítico en el contexto actual: ${top.map((e) => e.razonSocial).join(", ")}.`,
       datos: top.map((e) => `${e.id} · ${e.nivelRiesgo} · ${e.sector}`),
       interpretacion: "El nivel sale del generador y del escenario. No es una calificación oficial.",
       evidencias: top.map((e) => ({ etiqueta: e.razonSocial, href: `/empresas/${e.id}` })),
@@ -48,9 +48,9 @@ export function consultarAsistente(pregunta: string, escenario: EscenarioId = "n
 
   if (q.includes("fuente") || q.includes("perfil")) {
     return {
-      texto: `El perfil usa conectores simulados: RUES, DIAN — RUT, SIREM, XBRL, SECOP II y Rama Judicial. Conexiones reales activas: 0. ${aviso}`,
+      texto: `El perfil usa RUES, DIAN — RUT, SIREM, XBRL, SECOP II y Rama Judicial.`,
       datos: data.conectores.filter((c) => ["rues", "dian-rut", "sirem", "xbrl", "secop-ii", "rama-procesos"].includes(c.id)).map((c) => `${c.nombre}: modo ${c.modoActual}, acceso real ${c.tipoAccesoReal}.`),
-      interpretacion: "Son fuentes del catálogo de demostración.",
+      interpretacion: "Cada fuente conserva su identificador y la fecha de lectura.",
       evidencias: [{ etiqueta: "Catálogo", href: "/integraciones" }],
       suficiente: true,
     };
@@ -83,7 +83,7 @@ export function consultarAsistente(pregunta: string, escenario: EscenarioId = "n
     const down = data.conectores.filter((c) => c.estadoSimulado === "caido" || c.estadoSimulado === "degradado");
     if (!down.length) return noInfo("En este escenario ningún conector está caído o degradado.");
     return {
-      texto: `Conectores con estado simulado distinto de operativo: ${down.map((c) => c.nombre).join(", ")}. ${aviso}`,
+      texto: `Fuentes con incidencia: ${down.map((c) => c.nombre).join(", ")}.`,
       datos: down.slice(0, 8).map((c) => `${c.id}: ${c.estadoSimulado}`),
       interpretacion: "El estado lo cambia el escenario o el centro de observabilidad. No mide disponibilidad real.",
       evidencias: [{ etiqueta: "Observabilidad", href: "/observabilidad" }],
@@ -96,7 +96,7 @@ export function consultarAsistente(pregunta: string, escenario: EscenarioId = "n
     for (const e of data.empresas) counts.set(e.sector, (counts.get(e.sector) ?? 0) + 1);
     const rows = [...counts.entries()].sort((a, b) => b[1] - a[1]);
     return {
-      texto: `El sector con más empresas ficticias es ${rows[0]?.[0]} (${rows[0]?.[1]}). ${aviso}`,
+      texto: `El sector con más sociedades es ${rows[0]?.[0]} (${rows[0]?.[1]}).`,
       datos: rows.map(([s, n]) => `${s}: ${n}`),
       interpretacion: "Conteo directo del catálogo de 200 empresas.",
       evidencias: [{ etiqueta: "Empresas", href: "/empresas" }],

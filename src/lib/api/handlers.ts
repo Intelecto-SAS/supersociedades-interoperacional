@@ -52,7 +52,7 @@ export function evaluar(body: unknown, url: URL) {
   const parsed = riesgoSchema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Identificador no válido" }, { status: 400 });
   const data = viewFrom(url);
-  return Response.json(envelope({ aviso: "Evaluación simulada; no constituye decisión administrativa ni conclusión jurídica.", alertas: evaluarEmpresa(data, parsed.data.empresaId) }));
+  return Response.json(envelope({ alertas: evaluarEmpresa(data, parsed.data.empresaId) }));
 }
 
 export function clasificar(body: unknown) {

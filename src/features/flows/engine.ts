@@ -34,7 +34,7 @@ export function ejecutarFlujo(flow: FlowDefinition, options?: { forzarError?: bo
         duracionMs: 40,
         entrada: { modo: "falla_forzada" },
         salida: null,
-        mensaje: "Error simulado en la regla. Puede reintentarse.",
+        mensaje: "Incidencia en la regla. Puede reintentarse.",
       });
       failed = true;
       break;
@@ -61,7 +61,7 @@ export function ejecutarFlujo(flow: FlowDefinition, options?: { forzarError?: bo
           failed = true;
         } else {
           salida = { sourceId: node.sourceId, registros: result.length, latenciaMs: health.latenciaMs, muestra: result[0]?.title ?? null };
-          mensaje = `Lectura simulada de ${node.sourceId}: ${result.length} registros.`;
+          mensaje = `Lectura de ${node.sourceId}: ${result.length} registros.`;
         }
       }
     }
@@ -96,7 +96,7 @@ export function ejecutarFlujo(flow: FlowDefinition, options?: { forzarError?: bo
     estado: failed && pasos.every((p) => p.estado !== "ok") ? "error" : avisos ? "completado_con_avisos" : "completado",
     pasos,
     duracionSimulada: pasos.reduce((s, p) => s + p.duracionMs, 0),
-    resultado: avisos ? "El flujo registró una falla simulada y conservó el detalle por paso." : "Flujo simulado terminado.",
+    resultado: avisos ? "El flujo registró una incidencia y conservó el detalle por paso." : "Flujo terminado.",
     fecha: "2025-10-29T15:00:00-05:00",
     persistedOnServer: false,
   };

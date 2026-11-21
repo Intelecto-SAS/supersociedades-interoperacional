@@ -13,7 +13,7 @@ export default function VigilanciaPage() {
   const [result, setResult] = useState<ReturnType<typeof evaluarEmpresa>>([]);
   return (
     <div>
-      <PageHeader title="Vigilancia y riesgos" description="Motor de reglas determinista. Evaluación simulada; no constituye decisión administrativa ni conclusión jurídica." actions={<Link href="/vigilancia/alertas" className="text-sm font-semibold text-brand-burgundy">Ver alertas</Link>} />
+      <PageHeader title="Vigilancia y riesgos" description="Reglas de seguimiento sobre estados financieros, contratos, procesos y calidad de la información." actions={<Link href="/vigilancia/alertas" className="rounded-full bg-brand-burgundy px-3 py-2 text-sm font-semibold text-white">Ver alertas</Link>} />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <h2 className="font-semibold">Reglas</h2>
