@@ -1,0 +1,36 @@
+@import "@fontsource/nunito-sans/400.css";
+@import "@fontsource/nunito-sans/600.css";
+@import "@fontsource/nunito-sans/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-burgundy: #962d46;
+  --brand-blue: #2a477a;
+  --flag-yellow: #ffc800;
+  --flag-blue: #003189;
+  --flag-red: #d80025;
+  --surface: #f4f6f8;
+  --ink: #1c2434;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: "Nunito Sans", Verdana, Arial, sans-serif;
+}
+a { color: inherit; }
+:focus-visible {
+  outline: 3px solid var(--flag-yellow);
+  outline-offset: 2px;
+}
+@media print {
+  aside, header.no-print, .no-print { display: none !important; }
+  main { margin: 0 !important; padding: 0 !important; }
+  body { background: white; }
+}
