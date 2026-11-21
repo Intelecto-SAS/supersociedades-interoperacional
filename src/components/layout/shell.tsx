@@ -92,7 +92,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen">
         <FloatingNavigation pathname={pathname} mobileOpen={open} onCloseMobile={() => setOpen(false)} />
         <div className="workspace min-w-0 md:pl-[104px]">
-          <header className="no-print sticky top-3 z-20 mx-3 flex items-center gap-2 rounded-xl border border-surface-line bg-white px-3 py-2 shadow-card md:mx-4">
+          <header className="no-print sticky top-4 z-20 mx-4 flex h-16 items-center gap-3 rounded-2xl border border-surface-line bg-white px-3 shadow-card">
             <Button variant="secondary" className="md:hidden" aria-label="Abrir menú" onClick={() => setOpen(true)}><Menu size={16} /></Button>
             <p className="hidden min-w-28 text-sm font-semibold text-brand-ink sm:block">{title}</p>
             <form className="relative min-w-0 flex-1" onSubmit={(e) => { e.preventDefault(); if (results[0]) { setPalette(false); router.push(results[0].href); } }}>
