@@ -1,111 +1,78 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useInspector } from "@/components/layout/inspector";
-import { Button } from "@/components/ui/primitives";
-import { dashboardMetrics } from "@/features/dashboard/metrics";
-import { formatNumber, formatPercent } from "@/lib/formatting/format";
-import { useDemoStore, useView } from "@/lib/storage/store";
+import { CANALES } from "@/features/portal/canales";
+import { Badge } from "@/components/ui/primitives";
+import { useEmpresaSesion } from "@/lib/storage/store";
 
 export default function DashboardPage() {
-  const data = useView();
-  const router = useRouter();
-  const inspector = useInspector();
-  const update = useDemoStore((s) => s.updateAlerta);
-  const addExp = useDemoStore((s) => s.addExpediente);
-  const [recientes, setRecientes] = useState<{ id: string; label: string; href: string }[]>([]);
-  const [nota, setNota] = useState("");
-  const metrics = useMemo(() => dashboardMetrics(data), [data]);
-  useEffect(() => {
-    const raw = localStorage.getItem("conecta360-recientes");
-    if (raw) setRecientes(JSON.parse(raw) as typeof recientes);
-  }, []);
-  const nombre = (id: string) => data.empresas.find((e) => e.id === id)?.razonSocial ?? id;
-  const tareas = data.alertas.filter((a) => a.estado !== "cerrada").slice(0, 8);
+  const { empresa, solicitudes, documentos, documentosEstado } = useEmpresaSesion();
+  const abiertas = solicitudes.filter((s) => s.estado !== "cerrada" && s.estado !== "respondida");
+  const tutelas = solicitudes.filter((s) => s.prioridad === "tutela");
+  const porConfirmar = solicitudes.filter((s) => s.canal === "correo" && !s.confirmadoPorPersona);
+  const pendientesDoc = documentos.filter((d) => !documentosEstado[d.id]?.validado).slice(0, 4);
+  const salida = solicitudes.filter((s) => s.canal === "salida-472");
 
   return (
     <div>
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-[26px] font-bold tracking-tight text-brand-blue">Mi espacio de trabajo</h1>
-          <p className="mt-1 max-w-xl text-sm text-slate-600">Consulta las situaciones que requieren atención y continúa tus procesos.</p>
+          <h1 className="text-[26px] font-bold tracking-tight text-brand-blue">Portal de {empresa.razonSocial}</h1>
+          <p className="mt-1 max-w-2xl text-sm text-slate-600">Consulta las solicitudes enviadas a la Superintendencia, los documentos validados y el estado de cada canal de entrada.</p>
         </div>
         <div className="flex gap-2">
-          <Link className="rounded-lg bg-brand-burgundy px-3 py-2 text-sm font-semibold text-white" href="/empresas">Buscar sociedad</Link>
-          <Link className="rounded-lg border border-surface-line bg-white px-3 py-2 text-sm font-semibold text-brand-blue" href="/vigilancia/alertas">Ver todas las tareas</Link>
+          <Link className="rounded-lg bg-brand-burgundy px-3 py-2 text-sm font-semibold text-white" href="/solicitudes/nueva">Nueva solicitud FURT</Link>
+          <Link className="rounded-lg border border-surface-line bg-white px-3 py-2 text-sm font-semibold text-brand-blue" href="/documentos">Ver documentos</Link>
         </div>
       </div>
-      {nota ? <p role="status" className="mb-3 text-sm text-emerald-800">{nota}</p> : null}
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
         <section>
-          <h2 className="mb-2 text-base font-bold">Requiere mi atención</h2>
+          <h2 className="mb-2 text-base font-bold">Requieren seguimiento</h2>
           <div className="overflow-x-auto rounded-xl border border-surface-line bg-white">
-            <table className="w-full min-w-[720px] text-left text-sm">
+            <table className="w-full min-w-[680px] text-left text-sm">
               <thead className="text-xs uppercase tracking-wide text-slate-500">
-                <tr>
-                  {["Prioridad", "Sociedad", "Situación", "Tipo", "Estado", "Fecha", ""].map((h) => <th key={h} className="px-3 py-2 font-semibold">{h}</th>)}
-                </tr>
+                <tr>{["Canal", "Asunto", "Estado", "Fecha de llegada", ""].map((h) => <th key={h} className="px-3 py-2 font-semibold">{h}</th>)}</tr>
               </thead>
               <tbody>
-                {tareas.map((a) => (
-                  <tr key={a.id} className="border-t border-surface-line hover:bg-slate-50">
-                    <td className="px-3 py-3">{a.severidad}</td>
-                    <td className="px-3 py-3 font-semibold">{nombre(a.empresaId)}</td>
-                    <td className="px-3 py-3">{a.descripcion}</td>
-                    <td className="px-3 py-3">{a.tipo}</td>
-                    <td className="px-3 py-3">{a.estado}</td>
-                    <td className="px-3 py-3 tabular-nums">{a.fecha}</td>
-                    <td className="px-3 py-3">
-                      <button className="font-semibold text-brand-blue" onClick={(event) => inspector.open({
-                        title: a.descripcion,
-                        body: (
-                          <div className="space-y-2">
-                            <p><span className="font-semibold">Sociedad. </span>{nombre(a.empresaId)}</p>
-                            <p><span className="font-semibold">Prioridad. </span>{a.severidad}</p>
-                            <p><span className="font-semibold">Fecha. </span>{a.fecha}</p>
-                            <p><span className="font-semibold">Regla. </span>{a.reglaAplicada}</p>
-                            <p><span className="font-semibold">Evidencias. </span>{a.evidencias.join(" · ") || "Sin evidencia adicional."}</p>
-                            <p className="text-slate-500">Registro de la plataforma. No es una consulta externa.</p>
-                          </div>
-                        ),
-                        actions: (
-                          <>
-                            <Button onClick={() => router.push(`/empresas/${a.empresaId}?alerta=${a.id}`)}>Ver sociedad</Button>
-                            <Button variant="secondary" onClick={() => { addExp({ id: `DEMO-EXP-${a.id}`, empresaId: a.empresaId, tipo: "Alerta", estado: "abierto", responsableDemo: "Equipo de supervisión", resumen: a.descripcion, fechaApertura: "2025-10-29" }); setNota(`Expediente creado para ${a.id}.`); }}>Abrir expediente</Button>
-                            <Button variant="secondary" onClick={() => { update(a.id, { estado: "en_revision", responsableDemo: "Equipo de supervisión" }); setNota(`Alerta ${a.id} en revisión.`); }}>Registrar revisión</Button>
-                          </>
-                        ),
-                      }, event.currentTarget)}>Revisar</button>
-                    </td>
+                {abiertas.slice(0, 8).map((s) => (
+                  <tr key={s.id} className="border-t border-surface-line hover:bg-slate-50">
+                    <td className="px-3 py-3">{CANALES.find((c) => c.id === s.canal)?.nombre}</td>
+                    <td className="px-3 py-3 font-semibold">{s.asunto}{s.prioridad === "tutela" ? " · tutela" : ""}</td>
+                    <td className="px-3 py-3">{s.estado.replace("_", " ")}</td>
+                    <td className="px-3 py-3 tabular-nums">{s.fechaLlegada.slice(0, 16).replace("T", " ")}</td>
+                    <td className="px-3 py-3"><Link className="font-semibold text-brand-blue" href={`/solicitudes/${s.id}`}>Abrir</Link></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <h2 className="mb-2 mt-6 text-base font-bold">Actividad reciente</h2>
-          <ol className="space-y-2 text-sm">
-            {data.auditoria.slice(0, 4).map((a) => <li key={a.id} className="border-l-2 border-brand-burgundy pl-3"><span className="text-slate-500">{a.fecha.slice(0, 10)}</span> · {a.detalle}</li>)}
-            {data.alertas.slice(0, 3).map((a) => <li key={a.id} className="border-l-2 border-slate-200 pl-3"><span className="text-slate-500">{a.fecha}</span> · {a.descripcion}</li>)}
-          </ol>
+          {porConfirmar.length ? <p className="mt-3 text-sm">Hay {porConfirmar.length} correo{porConfirmar.length === 1 ? "" : "s"} con clasificación lista. Una persona debe confirmar el reparto.</p> : null}
         </section>
-        <aside className="space-y-6">
+        <aside className="space-y-5">
           <section>
-            <h2 className="mb-2 text-base font-bold">Continuar trabajando</h2>
-            <ul className="divide-y divide-surface-line rounded-xl border border-surface-line bg-white">
-              {recientes.length === 0 ? <li className="px-3 py-3 text-sm text-slate-500">Las sociedades que abra quedan en este navegador.</li> : recientes.map((r) => <li key={r.href} className="px-3 py-2 text-sm"><Link className="font-semibold text-brand-blue" href={r.href}>{r.label}</Link></li>)}
+            <h2 className="mb-2 text-base font-bold">Esta sociedad</h2>
+            <div className="rounded-xl border border-surface-line bg-white p-3 text-sm">
+              <p className="font-semibold">{empresa.razonSocial}</p>
+              <p className="text-slate-500">{empresa.nitDemo}</p>
+              <p className="mt-2">{empresa.municipio}, {empresa.departamento}</p>
+              <p>Matrícula {empresa.estadoMatriculaSimulado}</p>
+              <Link className="mt-2 inline-block font-semibold text-brand-blue" href="/empresa">Ver información validada</Link>
+            </div>
+          </section>
+          <section>
+            <h2 className="mb-2 text-base font-bold">Documentos por validar</h2>
+            <ul className="divide-y divide-surface-line rounded-xl border border-surface-line bg-white text-sm">
+              {pendientesDoc.length === 0 ? <li className="px-3 py-3 text-slate-500">No hay documentos pendientes.</li> : pendientesDoc.map((d) => (
+                <li key={d.id} className="px-3 py-2"><Link href="/documentos">{d.nombre}</Link></li>
+              ))}
             </ul>
           </section>
           <section>
-            <h2 className="mb-2 text-base font-bold">Panorama</h2>
-            <dl className="grid grid-cols-2 gap-x-3 gap-y-2 rounded-xl border border-surface-line bg-white p-3 text-sm">
-              <div><dt className="text-xs text-slate-500">Sociedades</dt><dd className="font-bold tabular-nums">{formatNumber(metrics.empresas)}</dd></div>
-              <div><dt className="text-xs text-slate-500">Alertas</dt><dd className="font-bold tabular-nums">{formatNumber(metrics.alertasAbiertas)}</dd></div>
-              <div><dt className="text-xs text-slate-500">Expedientes</dt><dd className="font-bold tabular-nums">{formatNumber(metrics.expedientes)}</dd></div>
-              <div><dt className="text-xs text-slate-500">Fuentes</dt><dd className="font-bold tabular-nums">{formatNumber(metrics.conectoresActivos)}</dd></div>
-              <div className="col-span-2"><dt className="text-xs text-slate-500">Calidad de datos</dt><dd className="font-bold">{formatPercent(metrics.calidad)}</dd></div>
-            </dl>
+            <h2 className="mb-2 text-base font-bold">Avisos</h2>
+            <ul className="space-y-2 text-sm">
+              {tutelas.map((s) => <li key={s.id}><Badge tone="risk">Tutela</Badge> {s.asunto}</li>)}
+              {salida.slice(0, 2).map((s) => <li key={s.id}><Badge tone="info">4-72</Badge> Guía {s.guia472}</li>)}
+            </ul>
           </section>
         </aside>
       </div>

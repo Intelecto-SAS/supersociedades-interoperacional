@@ -1,5 +1,5 @@
 import {
-  Bell, Building2, FolderKanban, LayoutDashboard, Scale, Settings, Sparkles, Workflow,
+  Bell, Building2, FileCheck, FileText, Inbox, LayoutDashboard, Mail, Send, Settings,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -14,36 +14,16 @@ export type NavEntry = {
 
 export const NAV: NavEntry[] = [
   { id: "inicio", label: "Inicio", icon: LayoutDashboard, href: "/dashboard" },
-  { id: "trabajo", label: "Mi trabajo", icon: FolderKanban, items: [
-    { href: "/expedientes", label: "Expedientes" },
-    { href: "/vigilancia/alertas", label: "Alertas" },
+  { id: "empresa", label: "Mi sociedad", icon: Building2, href: "/empresa" },
+  { id: "documentos", label: "Documentos", icon: FileCheck, href: "/documentos" },
+  { id: "solicitudes", label: "Solicitudes", icon: Inbox, items: [
+    { href: "/solicitudes", label: "Mis solicitudes" },
+    { href: "/solicitudes/nueva", label: "Nueva solicitud FURT" },
   ]},
-  { id: "sociedades", label: "Sociedades", icon: Building2, href: "/empresas" },
-  { id: "analisis", label: "Análisis", icon: Scale, items: [
-    { href: "/vigilancia", label: "Vigilancia" },
-    { href: "/vigilancia/alertas", label: "Alertas" },
-    { href: "/finanzas", label: "Finanzas" },
-    { href: "/insolvencia", label: "Insolvencia" },
-    { href: "/contratacion", label: "Contratación" },
-    { href: "/territorio", label: "Territorio" },
-  ]},
-  { id: "tramites", label: "Trámites", icon: Bell, items: [
-    { href: "/radicacion", label: "Radicación" },
-    { href: "/documentos", label: "Documentos" },
-    { href: "/informes", label: "Informes" },
-  ]},
-  { id: "integraciones", label: "Integraciones", icon: Workflow, items: [
-    { href: "/integraciones", label: "Catálogo" },
-    { href: "/flujos", label: "Flujos" },
-    { href: "/observabilidad", label: "Operación" },
-    { href: "/gobierno-datos", label: "Gobierno de datos" },
-    { href: "/auditoria", label: "Auditoría" },
-  ]},
-  { id: "herramientas", label: "Herramientas", icon: Sparkles, items: [
-    { href: "/asistente", label: "Asistente" },
-    { href: "/demo", label: "Casos de uso" },
-    { href: "/acerca-de", label: "Acerca de" },
-  ]},
+  { id: "correspondencia", label: "Correspondencia", icon: Mail, href: "/correspondencia" },
+  { id: "salida", label: "Salida 4-72", icon: Send, href: "/salida-472" },
+  { id: "datos", label: "Datos validados", icon: FileText, href: "/datos" },
+  { id: "canales", label: "Canales EDI", icon: Bell, href: "/canales" },
   { id: "preferencias", label: "Preferencias", icon: Settings, href: "/configuracion" },
 ];
 
