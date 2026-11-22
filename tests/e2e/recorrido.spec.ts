@@ -8,7 +8,7 @@ test("recorrido del portal de empresas", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Portal de Andina Alimentos S.A.S." })).toBeVisible();
   await page.goto("/solicitudes");
   await expect(page.getByText("Presentación de estados financieros 2024")).toBeVisible();
-  await page.getByRole("link", { name: "Nueva solicitud FURT" }).click();
+  await page.getByRole("main").getByRole("link", { name: "Nueva solicitud FURT" }).click();
   await page.getByRole("button", { name: "Continuar" }).click();
   await page.getByLabel("Asunto de la solicitud").fill("Actualización de información de Andina Alimentos");
   await page.getByRole("button", { name: "Continuar" }).click();
