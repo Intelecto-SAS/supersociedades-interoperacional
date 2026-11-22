@@ -8,8 +8,7 @@ import { NAV, type NavEntry } from "@/components/layout/nav";
 const KEY = "conecta360-nav";
 
 function matches(pathname: string, href: string) {
-  if (href === "/dashboard") return pathname === href;
-  if (href === "/vigilancia") return pathname === href;
+  if (href === "/dashboard" || href === "/vigilancia" || href === "/solicitudes") return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

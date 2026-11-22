@@ -10,7 +10,7 @@ export default function ConfiguracionPage() {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const exportar = () => {
-    const payload = { version: 1, escenario: state.escenario, rol: state.rol, alertas: state.alertas, notas: state.notas, expedientesExtra: state.expedientesExtra, conectores: state.conectores, auditoria: state.auditoria };
+    const payload = { version: 1, escenario: state.escenario, rol: state.rol, empresaActiva: state.empresaActiva, alertas: state.alertas, notas: state.notas, expedientesExtra: state.expedientesExtra, solicitudesExtra: state.solicitudesExtra, documentosEstado: state.documentosEstado, conectores: state.conectores, auditoria: state.auditoria };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -19,9 +19,9 @@ export default function ConfiguracionPage() {
   };
   return (
     <div>
-      <PageHeader title="Preferencias" description="Contexto de operación, perfil de trabajo y copia de la sesión." />
+      <PageHeader title="Preferencias" description="Sociedad en sesión y copia del estado de este navegador." />
       <Card className="space-y-3">
-        <p className="text-sm">Contexto: {state.escenario}. Perfil: {state.rol}.</p>
+        <p className="text-sm">Sociedad en sesión: {state.empresaActiva}.</p>
         <div className="flex flex-wrap gap-2">
           <Button onClick={exportar}>Exportar estado</Button>
           <label className="rounded-md border px-3 py-2 text-sm">Importar estado

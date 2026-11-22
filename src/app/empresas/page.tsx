@@ -1,54 +1,36 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import type { ColumnDef } from "@tanstack/react-table";
-import { Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/shared/page";
-import { DataTable } from "@/components/tables/data-table";
-import { Badge, TextInput } from "@/components/ui/primitives";
-import { useView } from "@/lib/storage/store";
-import type { Empresa } from "@/types/domain";
-
-function EmpresasInner() {
-  const data = useView();
-  const params = useSearchParams();
-  const [q, setQ] = useState("");
-  const [sector, setSector] = useState(params.get("sector") ?? "");
-  const [riesgo, setRiesgo] = useState("");
-  const sectores = [...new Set(data.empresas.map((e) => e.sector))];
-  const rows = useMemo(() => data.empresas.filter((e) => {
-    const text = `${e.razonSocial} ${e.id} ${e.nitDemo}`.toLowerCase();
-    return (!q || text.includes(q.toLowerCase())) && (!sector || e.sector === sector) && (!riesgo || e.nivelRiesgo === riesgo);
-  }), [data.empresas, q, sector, riesgo]);
-  const columns: ColumnDef<Empresa>[] = [
-    { accessorKey: "razonSocial", header: "Razón social", cell: ({ row }) => <Link className="font-semibold text-brand-blue" href={`/empresas/${row.original.id}`}>{row.original.razonSocial}</Link> },
-    { accessorKey: "id", header: "Identificador" },
-    { accessorKey: "sector", header: "Sector" },
-    { accessorKey: "departamento", header: "Departamento" },
-    { accessorKey: "nivelRiesgo", header: "Riesgo", cell: ({ getValue }) => <Badge tone={getValue() === "critica" ? "risk" : getValue() === "alta" ? "warn" : "info"}>{String(getValue())}</Badge> },
-  ];
-  return (
-    <div>
-      <PageHeader title="Sociedades" description="Doscientas sociedades con el mismo identificador en finanzas, contratos, procesos, expedientes y alertas." />
-      <div className="mb-3 grid gap-2 md:grid-cols-4">
-        <TextInput aria-label="Filtrar empresas" placeholder="Nombre o DEMO-EMP" value={q} onChange={(e) => setQ(e.target.value)} />
-        <select aria-label="Sector" className="rounded-md border px-2" value={sector} onChange={(e) => setSector(e.target.value)}>
-          <option value="">Todos los sectores</option>
-          {sectores.map((s) => <option key={s}>{s}</option>)}
-        </select>
-        <select aria-label="Riesgo" className="rounded-md border px-2" value={riesgo} onChange={(e) => setRiesgo(e.target.value)}>
-          <option value="">Todo riesgo</option>
-          <option value="baja">baja</option><option value="media">media</option><option value="alta">alta</option><option value="critica">crítica</option>
-        </select>
-        <button className="rounded-md border border-surface-line bg-white px-3 text-sm font-semibold" onClick={() => { setQ(""); setSector(""); setRiesgo(""); }}>Limpiar filtros</button>
-      </div>
-      <DataTable columns={columns} data={rows} />
-    </div>
-  );
-}
+import { Button, TextInput } from "@/components/ui/primitives";
+import { useDemoStore, useView } from "@/lib/storage/store";
 
 export default function EmpresasPage() {
-  return <Suspense><EmpresasInner /></Suspense>;
+  const data = useView();
+  const router = useRouter();
+  const setEmpresa = useDemoStore((s) => s.setEmpresaActiva);
+  const [q, setQ] = useState("");
+  const rows = useMemo(() => data.empresas.filter((e) => `${e.razonSocial} ${e.id} ${e.nitDemo}`.toLowerCase().includes(q.toLowerCase())), [data.empresas, q]);
+  return (
+    <div>
+      <PageHeader title="Cambiar de sociedad" description="Elija la sociedad con la que desea trabajar en el portal. Cada una tiene su documentación y sus solicitudes." />
+      <TextInput aria-label="Filtrar empresas" className="mb-3" placeholder="Nombre o NIT" value={q} onChange={(e) => setQ(e.target.value)} />
+      <div className="overflow-x-auto rounded-xl border border-surface-line bg-white">
+        <table className="w-full text-left text-sm">
+          <thead className="text-xs uppercase text-slate-500"><tr>{["Razón social", "Identificador", "Municipio", ""].map((h) => <th key={h} className="px-3 py-2">{h}</th>)}</tr></thead>
+          <tbody>
+            {rows.slice(0, 40).map((e) => (
+              <tr key={e.id} className="border-t border-surface-line">
+                <td className="px-3 py-2 font-semibold">{e.razonSocial}</td>
+                <td className="px-3 py-2">{e.id}</td>
+                <td className="px-3 py-2">{e.municipio}</td>
+                <td className="px-3 py-2"><Button onClick={() => { setEmpresa(e.id); router.push("/dashboard"); }}>Entrar</Button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }

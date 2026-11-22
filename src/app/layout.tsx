@@ -3,8 +3,8 @@ import "@/styles/globals.css";
 import { Shell } from "@/components/layout/shell";
 
 export const metadata: Metadata = {
-  title: "CONECTA 360",
-  description: "Vista integral de sociedades, riesgos, contratación y expedientes.",
+  title: "CONECTA 360 · Portal de empresas",
+  description: "Portal de la Superintendencia de Sociedades para que cada sociedad gestione documentos y solicitudes.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
